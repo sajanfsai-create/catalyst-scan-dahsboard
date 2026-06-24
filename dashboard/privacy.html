@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Notice — CatalystScan v2.2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #EAF6FB;
+            color: #334155;
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(11, 30, 77, 0.04), 0 2px 4px -2px rgba(11, 30, 77, 0.03);
+            border: 1px solid #d1e9f5;
+        }
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #0B1E4D;
+        }
+        h1 { margin-top: 0; font-size: 28px; font-weight: 800; }
+        h2 { font-size: 20px; margin-top: 28px; font-weight: 700; }
+        .text-muted { color: #64748b; }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00BFA6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover { text-decoration: underline; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #d1e9f5;
+        }
+        th { color: #0B1E4D; background-color: #EAF6FB; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { color: #334155; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        strong { color: #0B1E4D; }
+        p { margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/" class="back-link">&larr; Back to Dashboard</a>
+    <h1>Digital Personal Data Protection (DPDP) Privacy Notice</h1>
+    <p class="text-muted">Last Updated: April 2026</p>
+
+    <p>
+        Boston Tech India ("Data Fiduciary") is committed to protecting your digital personal data in compliance with the Digital Personal Data Protection Act, 2023 (DPDPA). 
+        This notice outlines how the CatalystScan application collects, uses, and protects your data.
+    </p>
+
+    <h2>1. What Data Do We Collect?</h2>
+    <p>When using CatalystScan or the CatalystScan Agent (.exe), we collect the following:</p>
+    <table>
+        <tr>
+            <th>Data Category</th>
+            <th>Specific Data Points</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td><strong>Admin User Data</strong></td>
+            <td>Name, Email Address, Phone Number, Password Hash</td>
+            <td>Dashboard Authentication, Access Control, Alerts</td>
+        </tr>
+        <tr>
+            <td><strong>Device Identity Data</strong></td>
+            <td>IP Address, Hostname, Hardware Fingerprint</td>
+            <td>Asset tracking, License verification, Theft alerts</td>
+        </tr>
+        <tr>
+            <td><strong>Telemetry Data</strong></td>
+            <td>Hardware Specs (CPU, RAM, GPU), Operating System, Timestamps</td>
+            <td>Fleet health monitoring, Compatibility assessment</td>
+        </tr>
+    </table>
+
+    <h2>2. Purpose of Collection</h2>
+    <p>
+        Your data is processed exclusively for IT asset management, anti-theft monitoring, hardware compatibility analysis, and compliance reporting. 
+        We do not sell your personal data or use it for targeted advertising.
+    </p>
+
+    <h2>3. Consent & Withdrawal</h2>
+    <p>
+        By using the CatalystScan Agent, you or your Organization Administrator have consented to the collection of the data outlined above. 
+        Under DPDPA Section 6, you have the right to withdraw this consent at any time. To withdraw consent, an organization admin can delete your device from the dashboard, or you may contact our Grievance Officer.
+    </p>
+
+    <h2>4. Your Rights (Data Principals)</h2>
+    <p>Under the DPDPA, you possess the following rights:</p>
+    <ul>
+        <li><strong>Right to Access:</strong> Your Organization Admin can export a summary of your personal data using the "Export Data" functionality in the Dashboard.</li>
+        <li><strong>Right to Correction:</strong> You may request corrections to inaccurate personal data through your Dashboard profile.</li>
+        <li><strong>Right to Erasure (Purge):</strong> You may request the permanent, physical deletion of all your personal data. We provide a 'Hard Delete' functionality for complete data purging.</li>
+    </ul>
+
+    <h2>5. Data Retention Policy</h2>
+    <p>
+        We adhere to strict data minimization and purpose limitation protocols:
+    </p>
+    <ul>
+        <li><strong>Heartbeat Pings:</strong> Retained for a maximum of <strong>90 days</strong>.</li>
+        <li><strong>Scan Results:</strong> Maximum of <strong>2 historical scan results</strong> per device. Older scans are automatically purged.</li>
+        <li><strong>Inactive Organizations:</strong> All data is permanently deleted upon organizational account closure via the Purge functionality.</li>
+    </ul>
+
+    <h2>6. Security Safeguards</h2>
+    <p>
+        We implement robust security measures including data encryption (TLS), secure HMAC token-based authentication with replay protection, strict Role-Based Access Control (RBAC), parameterized queries to prevent injection vulnerabilities, and detailed audit logging of all sensitive actions.
+    </p>
+
+    <h2>7. Grievance Redressal</h2>
+    <p>
+        In compliance with DPDPA Section 13, if you have any questions or complaints regarding this Privacy Notice or your personal data, please contact our designated Grievance Officer:
+    </p>
+    <div id="grievance-officer-info" style="background: #EAF6FB; padding: 20px; border-radius: 10px; border: 1px solid #d1e9f5;">
+        <p style="color: #64748b;">Loading grievance officer information...</p>
+    </div>
+
+</div>
+
+<script>
+    fetch('/api/public/grievance-officer')
+        .then(r => r.json())
+        .then(data => {
+            const el = document.getElementById('grievance-officer-info');
+            const esc = s => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+            el.innerHTML = `
+                <p style="margin: 0 0 10px 0;"><strong>Name:</strong> ${esc(data.name)}</p>
+                ${data.email ? `<p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${esc(data.email)}</p>` : ''}
+                ${data.phone ? `<p style="margin: 0 0 10px 0;"><strong>Phone:</strong> ${esc(data.phone)}</p>` : ''}
+                <p style="margin: 0;"><strong>Response SLA:</strong> We commit to acknowledging your grievance within ${esc(data.response_sla)} and resolving it strictly within the statutory timeframe.</p>
+            `;
+        })
+        .catch(() => {
+            document.getElementById('grievance-officer-info').innerHTML =
+                '<p style="color:#ef4444;">Unable to load grievance officer details. Please contact admin.</p>';
+        });
+</script>
+
+</body>
+</html>

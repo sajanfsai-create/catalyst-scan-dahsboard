@@ -1,0 +1,17 @@
+{
+  "name": "CatalystScan Dashboard",
+  "short_name": "CatalystScan",
+  "description": "Central administration and health monitoring for your IT hardware fleet.",
+  "start_url": "/dashboard/",
+  "display": "standalone",
+  "background_color": "#EAF6FB",
+  "theme_color": "#0B1E4D",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

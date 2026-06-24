@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatalystScan v2.1 — IT Asset Intelligence Platform | Bostontech India</title>
+        content="CatalystScan v2.1 by Bostontech India — AI-powered IT asset lifecycle management for universities and enterprises. Fleet monitoring, E-Waste compliance, AMC tracking, and AICTE-ready reporting.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════
+           CSS RESET & BASE
+           ═══════════════════════════════════════ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-50: #eff6ff;
+            --blue-100: #dbeafe;
+            --blue-200: #bfdbfe;
+            --blue-500: #0B1E4D;
+            --blue-600: #0B1E4D;
+            --blue-700: #091838;
+            --blue-800: #091838;
+            --blue-900: #060f24;
+            --teal-400: #14D4B8;
+            --teal-500: #00BFA6;
+            --purple-500: #8b5cf6;
+            --purple-600: #7c3aed;
+            --green-500: #00BFA6;
+            --green-600: #009A87;
+            --amber-500: #f59e0b;
+            --red-500: #ef4444;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0B1E4D;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════
+           FLYER CONTAINER — A4 proportions
+           ═══════════════════════════════════════ */
+        .flyer {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ═══════════════════════════════════════
+           DECORATIVE BACKGROUND ELEMENTS
+           ═══════════════════════════════════════ */
+        .flyer::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .flyer::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Grid dots pattern overlay */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle, var(--slate-200) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ═══════════════════════════════════════
+           HEADER / HERO
+           ═══════════════════════════════════════ */
+        .hero {
+            position: relative;
+            z-index: 1;
+            padding: 48px 56px 36px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-left {
+            flex: 1;
+        }
+
+        .hero-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .hero-brand img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+        }
+
+        .hero-brand-text h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--blue-600);
+        }
+
+        .hero-brand-text span {
+            font-size: 11px;
+            color: var(--slate-400);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-headline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--slate-900);
+            margin-bottom: 16px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-headline .gradient-text {
+            background: linear-gradient(135deg, var(--blue-600), var(--teal-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 16px;
+            color: var(--slate-500);
+            line-height: 1.7;
+            max-width: 520px;
+            margin-bottom: 28px;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--blue-50);
+            border: 1px solid var(--blue-100);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue-700);
+            white-space: nowrap;
+        }
+
+        .hero-badge.teal {
+            background: rgba(20, 184, 166, 0.08);
+            border-color: rgba(20, 184, 166, 0.2);
+            color: var(--teal-500);
+        }
+
+        .hero-badge.purple {
+            background: rgba(139, 92, 246, 0.08);
+            border-color: rgba(139, 92, 246, 0.2);
+            color: var(--purple-500);
+        }
+
+        .hero-right {
+            flex-shrink: 0;
+            width: 380px;
+            position: relative;
+        }
+
+        .hero-right img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .hero-right::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--blue-200), var(--teal-400));
+            opacity: 0.25;
+            z-index: -1;
+        }
+
+        /* ═══════════════════════════════════════
+           STATS STRIP
+           ═══════════════════════════════════════ */
+        .stats-strip {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            margin: 0 56px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+            box-shadow: 0 8px 32px rgba(30, 58, 95, 0.2);
+        }
+
+        .stat-item {
+            padding: 22px 24px;
+            text-align: center;
+            color: #fff;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.7;
+            font-weight: 500;
+        }
+
+        /* ═══════════════════════════════════════
+           FEATURES GRID
+           ═══════════════════════════════════════ */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 40px 56px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--blue-600);
+            margin-bottom: 8px;
+        }
+
+        .section-label::before,
+        .section-label::after {
+            content: '';
+            width: 28px;
+            height: 1.5px;
+            background: linear-gradient(90deg, var(--blue-200), var(--blue-600));
+        }
+
+        .section-label::after {
+            background: linear-gradient(90deg, var(--blue-600), var(--blue-200));
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--slate-900);
+            letter-spacing: -0.5px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #fff;
+            border: 1px solid var(--slate-100);
+            border-radius: var(--radius-sm);
+            padding: 28px 24px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-500), var(--teal-400));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--blue-200);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon.blue {
+            background: var(--blue-50);
+        }
+
+        .feature-icon.green {
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .feature-icon.purple {
+            background: rgba(139, 92, 246, 0.08);
+        }
+
+        .feature-icon.teal {
+            background: rgba(20, 184, 166, 0.08);
+        }
+
+        .feature-icon.amber {
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .feature-icon.red {
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .feature-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--slate-800);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--slate-500);
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════
+           COMPLIANCE STRIP
+           ═══════════════════════════════════════ */
+        .compliance-strip {
+            position: relative;
+            z-index: 1;
+            margin: 0 56px 0;
+            padding: 28px 36px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03), rgba(20, 184, 166, 0.03));
+            border: 1px solid var(--blue-100);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .compliance-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .compliance-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .compliance-icon.blue-bg {
+            background: var(--blue-100);
+        }
+
+        .compliance-icon.green-bg {
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .compliance-icon.purple-bg {
+            background: rgba(139, 92, 246, 0.12);
+        }
+
+        .compliance-icon.teal-bg {
+            background: rgba(20, 184, 166, 0.12);
+        }
+
+        .compliance-item h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--slate-800);
+            margin-bottom: 2px;
+        }
+
+        .compliance-item p {
+            font-size: 11px;
+            color: var(--slate-500);
+            line-height: 1.4;
+        }
+
+        /* ═══════════════════════════════════════
+           HOW IT WORKS
+           ═══════════════════════════════════════ */
+        .steps-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+        }
+
+        .steps-row::before {
+            content: '';
+            position: absolute;
+            top: 26px;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue-200), var(--teal-400), var(--purple-500), var(--blue-200));
+            z-index: 0;
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-num {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-600), var(--teal-500));
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .step-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--slate-800);
+            margin-bottom: 6px;
+        }
+
+        .step-card p {
+            font-size: 12px;
+            color: var(--slate-500);
+            line-height: 1.5;
+        }
+
+        /* ═══════════════════════════════════════
+           CTA / FOOTER
+           ═══════════════════════════════════════ */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            margin: 36px 56px 0;
+            padding: 36px 48px;
+            background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15), transparent 60%);
+            border-radius: 50%;
+        }
+
+        .cta-left h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .cta-left p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .cta-btn {
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-btn.primary {
+            background: #fff;
+            color: var(--blue-700);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-btn.outline {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .cta-btn.outline:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Footer */
+        .flyer-footer {
+            position: relative;
+            z-index: 1;
+            padding: 28px 56px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-left img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .footer-brand {
+            font-size: 12px;
+            color: var(--slate-500);
+        }
+
+        .footer-brand strong {
+            color: var(--slate-700);
+            font-weight: 700;
+        }
+
+        .footer-contact {
+            text-align: right;
+            font-size: 12px;
+            color: var(--slate-400);
+        }
+
+        .footer-contact a {
+            color: var(--blue-600);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-divider {
+            width: calc(100% - 112px);
+            margin: 0 56px;
+            height: 1px;
+            background: var(--slate-100);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ═══════════════════════════════════════
+           PRINT STYLES
+           ═══════════════════════════════════════ */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .flyer {
+                max-width: 100%;
+                box-shadow: none;
+            }
+
+            .feature-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE (tablet / mobile view)
+           ═══════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                padding: 32px 28px 24px;
+            }
+
+            .hero-right {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .hero-headline {
+                font-size: 32px;
+            }
+
+            .stats-strip {
+                grid-template-columns: repeat(2, 1fr);
+                margin: 0 28px;
+            }
+
+            .section {
+                padding: 28px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .steps-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-row::before {
+                display: none;
+            }
+
+            .compliance-strip {
+                flex-direction: column;
+                margin: 0 28px;
+            }
+
+            .cta-section {
+                flex-direction: column;
+                text-align: center;
+                margin: 28px;
+            }
+
+            .cta-actions {
+                justify-content: center;
+            }
+
+            .flyer-footer {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .footer-contact {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-strip {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .steps-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flyer">
+        <div class="grid-pattern"></div>
+
+        <!-- ═══════════════════ HERO ═══════════════════ -->
+        <section class="hero">
+            <div class="hero-left">
+                <div class="hero-brand">
+                    <img src="logo.png" alt="Bostontech India Logo" onerror="this.onerror=null; this.src='https://catalystscan.bostontechindia.in/dashboard/logo.png'">
+                    <div class="hero-brand-text">
+                        <h2>Bostontech India</h2>
+                        <span>Enterprise Solutions</span>
+                    </div>
+                </div>
+
+                <h1 class="hero-headline">
+                    <span class="gradient-text">CatalystScan</span> v2.1<br>
+                    IT Asset Intelligence<br>
+                    Platform
+                </h1>
+                <p class="hero-sub">
+                    AI-powered fleet monitoring, lifecycle management, and regulatory compliance
+                    — purpose-built for Indian universities and enterprises. One platform to scan,
+                    track, and report on every device across your campus.
+                </p>
+                <div class="hero-badges">
+                    <span class="hero-badge">🔒 Hardware Fingerprinting</span>
+                    <span class="hero-badge teal">♻️ E-Waste Compliant</span>
+                    <span class="hero-badge purple">🤖 AI Grading Engine</span>
+                    <span class="hero-badge">📊 AICTE-Ready Reports</span>
+                </div>
+            </div>
+            <div class="hero-right">
+                <img src="dashboard_mockup.png" alt="CatalystScan Dashboard Preview" onerror="this.onerror=null; this.src='https://catalystscan.bostontechindia.in/dashboard/dashboard_mockup.png'">
+            </div>
+        </section>
+
+        <!-- ═══════════════════ STATS ═══════════════════ -->
+        <div class="stats-strip">
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Devices Managed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">12+</div>
+                <div class="stat-label">Modules Built-In</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime SLA</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3 sec</div>
+                <div class="stat-label">Scan Time / Device</div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════ FEATURES ═══════════════════ -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-label">Capabilities</div>
+                <h2 class="section-title">Everything You Need, Built In</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon blue">📊</div>
+                    <h3>Fleet Dashboard</h3>
+                    <p>Real-time overview of all devices — online/offline status, health scores, active alerts, and
+                        organization-wide metrics at a glance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon green">♻️</div>
+                    <h3>E-Waste Compliance</h3>
+                    <p>Automated MoEFCC E-Waste Rules 2022 compliance. AI grades every device as Keep, Review, or
+                        E-Waste with documented reasoning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple">📅</div>
+                    <h3>AMC & Warranty Tracker</h3>
+                    <p>Track warranty expiry, AMC contracts, and service windows across your entire fleet. Never miss a
+                        renewal deadline again.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon teal">🖥️</div>
+                    <h3>Lab Utilization Analytics</h3>
+                    <p>Measure lab-wise usage patterns, identify underutilized assets, and optimize procurement
+                        decisions with data-driven insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon amber">🔒</div>
+                    <h3>Tamper Detection</h3>
+                    <p>SHA-256 hardware fingerprinting detects unauthorized RAM/HDD/CPU changes. Real-time alerts on any
+                        component swap.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon red">📄</div>
+                    <h3>AICTE/UGC Reports</h3>
+                    <p>One-click export of asset registers, e-waste reports, and compliance documents in the exact
+                        format required for affiliation submissions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════ COMPLIANCE ═══════════════════ -->
+        <div class="compliance-strip">
+            <div class="compliance-item">
+                <div class="compliance-icon blue-bg">🏛️</div>
+                <div>
+                    <h4>AICTE Compliant</h4>
+                    <p>Meets all hardware inventory requirements for annual affiliation</p>
+                </div>
+            </div>
+            <div class="compliance-item">
+                <div class="compliance-icon green-bg">♻️</div>
+                <div>
+                    <h4>MoEFCC E-Waste Ready</h4>
+                    <p>Automated compliance with E-Waste Management Rules, 2022</p>
+                </div>
+            </div>
+            <div class="compliance-item">
+                <div class="compliance-icon purple-bg">📋</div>
+                <div>
+                    <h4>UGC Format Reports</h4>
+                    <p>Export device data in standardized university submission format</p>
+                </div>
+            </div>
+            <div class="compliance-item">
+                <div class="compliance-icon teal-bg">🔐</div>
+                <div>
+                    <h4>Anti-Theft Built In</h4>
+                    <p>Hardware-locked fingerprint survives OS reinstalls & user changes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════ HOW IT WORKS ═══════════════════ -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-label">Deployment</div>
+                <h2 class="section-title">Up and Running in 4 Steps</h2>
+            </div>
+            <div class="steps-row">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Register Organization</h4>
+                    <p>Create your institution profile on the admin dashboard</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Generate .exe Package</h4>
+                    <p>Build a branded scanner with your org config baked in</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Deploy to Labs</h4>
+                    <p>Distribute the .exe — no install needed, just run</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Monitor & Report</h4>
+                    <p>Devices auto-register and start streaming telemetry</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════ CTA ═══════════════════ -->
+        <div class="cta-section">
+            <div class="cta-left">
+                <h3>Ready to Transform Your IT Operations?</h3>
+                <p>Schedule a live demo or request a pilot deployment for your institution.</p>
+            </div>
+            <div class="cta-actions">
+                <a href="mailto:info@bostontechindia.in" class="cta-btn primary">
+                    ✉️ Request Demo
+                </a>
+                <a href="https://catalystscan.bostontechindia.in" class="cta-btn outline">
+                    🌐 Live Dashboard →
+                </a>
+            </div>
+        </div>
+
+        <!-- ═══════════════════ FOOTER ═══════════════════ -->
+        <div class="footer-divider"></div>
+        <footer class="flyer-footer">
+            <div class="footer-left">
+                <img src="logo.png" alt="Bostontech Logo" onerror="this.onerror=null; this.src='https://catalystscan.bostontechindia.in/dashboard/logo.png'">
+                <div class="footer-brand">
+                    <strong>Bostontech India</strong><br>
+                    Enterprise IT Solutions & Academic Products
+                </div>
+            </div>
+            <div class="footer-contact">
+                🌐 <a href="https://bostontechindia.in/">bostontechindia.in</a> &nbsp;|&nbsp;
+                ✉️ <a href="mailto:info@bostontechindia.in">info@bostontechindia.in</a> &nbsp;|&nbsp;
+                📞 <a href="tel:+918508589815">+91 8508589815</a><br>
+                📍 Salem, Tamil Nadu, India &nbsp;|&nbsp; © 2026 Bostontech India. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>

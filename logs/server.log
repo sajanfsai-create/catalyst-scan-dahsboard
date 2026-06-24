@@ -1,0 +1,80 @@
+[2026-05-22 03:03:19,933] INFO [main:48] Structured logging initialized.
+[2026-05-22 03:03:20,688] INFO [httpx:1025] HTTP Request: GET http://testserver/api/feature-check/network-scan/valid_fp "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:03:20,691] INFO [httpx:1025] HTTP Request: GET http://testserver/api/auth/session "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:03:20,698] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:03:20,701] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:03:20,703] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:03:20,706] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/non_existent_fp "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:03:20,709] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/valid_fp "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:03:20,713] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:03:20,719] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+[2026-05-22 03:03:20,722] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry/heartbeat "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:03:20,725] INFO [httpx:1025] HTTP Request: POST http://testserver/api/alert/tamper "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:03:20,728] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:07:26,589] INFO [main:48] Structured logging initialized.
+[2026-05-22 03:07:26,777] INFO [httpx:1025] HTTP Request: GET http://testserver/api/feature-check/network-scan/valid_fp "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:07:26,781] INFO [httpx:1025] HTTP Request: GET http://testserver/api/auth/session "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:07:26,788] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:07:26,791] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:07:26,793] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:07:26,796] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/non_existent_fp "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:07:26,798] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/valid_fp "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:07:26,801] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:07:26,806] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+[2026-05-22 03:07:26,809] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry/heartbeat "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:07:26,812] INFO [httpx:1025] HTTP Request: POST http://testserver/api/alert/tamper "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:07:26,815] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry "HTTP/1.1 403 Forbidden"
+[2026-05-22 03:09:01,469] INFO [main:48] Structured logging initialized.
+[2026-05-22 03:09:01,671] INFO [httpx:1025] HTTP Request: GET http://testserver/api/feature-check/network-scan/valid_fp "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,674] INFO [httpx:1025] HTTP Request: GET http://testserver/api/auth/session "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:09:01,682] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,685] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:09:01,689] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,692] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/non_existent_fp "HTTP/1.1 404 Not Found"
+[2026-05-22 03:09:01,695] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/valid_fp "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,698] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:09:01,704] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,709] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry/heartbeat "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,713] INFO [httpx:1025] HTTP Request: POST http://testserver/api/alert/tamper "HTTP/1.1 200 OK"
+[2026-05-22 03:09:01,718] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry "HTTP/1.1 422 Unprocessable Entity"
+[2026-05-22 03:09:27,897] INFO [main:48] Structured logging initialized.
+[2026-05-22 03:09:28,088] INFO [httpx:1025] HTTP Request: GET http://testserver/api/feature-check/network-scan/valid_fp "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,092] INFO [httpx:1025] HTTP Request: GET http://testserver/api/auth/session "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:09:28,102] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,105] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:09:28,109] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,111] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/non_existent_fp "HTTP/1.1 404 Not Found"
+[2026-05-22 03:09:28,114] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/valid_fp "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,117] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+[2026-05-22 03:09:28,122] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,126] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry/heartbeat "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,130] INFO [httpx:1025] HTTP Request: POST http://testserver/api/alert/tamper "HTTP/1.1 200 OK"
+[2026-05-22 03:09:28,135] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry "HTTP/1.1 200 OK"
+[2026-06-24 12:14:35,501] INFO [main:48] Structured logging initialized.
+[2026-06-24 12:14:54,043] INFO [main:48] Structured logging initialized.
+[2026-06-24 12:14:55,128] INFO [httpx:1025] HTTP Request: GET http://testserver/api/feature-check/network-scan/valid_fp "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,144] INFO [httpx:1025] HTTP Request: GET http://testserver/api/auth/session "HTTP/1.1 401 Unauthorized"
+[2026-06-24 12:14:55,228] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,259] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-06-24 12:14:55,285] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,310] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/non_existent_fp "HTTP/1.1 404 Not Found"
+[2026-06-24 12:14:55,340] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/valid_fp "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,366] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+[2026-06-24 12:14:55,397] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,425] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry/heartbeat "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,449] INFO [httpx:1025] HTTP Request: POST http://testserver/api/alert/tamper "HTTP/1.1 200 OK"
+[2026-06-24 12:14:55,482] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry "HTTP/1.1 200 OK"
+[2026-06-24 12:17:33,200] INFO [main:48] Structured logging initialized.
+[2026-06-24 12:18:28,982] INFO [__main__:48] Structured logging initialized.
+[2026-06-24 12:18:30,095] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-24 12:18:30,095] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-24 12:18:30,098] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-24 12:18:30,099] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-24 12:25:40,689] ERROR [asyncio:1758] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Users\venga\AppData\Local\Programs\Python\Python310\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\venga\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
