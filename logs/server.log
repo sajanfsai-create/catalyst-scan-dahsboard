@@ -96,3 +96,30 @@ ConnectionResetError: [WinError 10054] An existing connection was forcibly close
 [2026-06-24 13:10:41,432] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
 [2026-06-24 13:10:41,432] INFO [__main__:253] Downloads: http://localhost:9000/downloads
 [2026-06-24 13:10:41,433] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-29 17:34:41,623] INFO [__main__:48] Structured logging initialized.
+[2026-06-29 17:34:42,357] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-29 17:34:42,357] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-29 17:34:42,357] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-29 17:34:42,364] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-29 17:41:47,630] INFO [__main__:48] Structured logging initialized.
+[2026-06-29 17:41:48,302] INFO [__main__:269] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-29 17:41:48,305] INFO [__main__:270] Dashboard: http://localhost:9000/dashboard/
+[2026-06-29 17:41:48,305] INFO [__main__:271] Downloads: http://localhost:9000/downloads
+[2026-06-29 17:41:48,305] INFO [__main__:272] API Docs:  http://localhost:9000/docs
+[2026-06-29 17:41:48,365] INFO [__main__:77] Verifying and initializing database schema...
+[2026-06-29 17:42:09,904] WARNING [__main__:85] Database initialization attempt 1 failed: (2003, "Can't connect to MySQL server on 'mysql' ([Errno 11001] getaddrinfo failed)"). Retrying in 3 seconds...
+[2026-06-29 17:42:52,196] INFO [__main__:48] Structured logging initialized.
+[2026-06-29 17:42:52,590] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-29 17:42:52,590] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-29 17:42:52,590] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-29 17:42:52,590] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-29 17:47:29,606] INFO [__main__:48] Structured logging initialized.
+[2026-06-29 17:47:30,226] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-29 17:47:30,228] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-29 17:47:30,229] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-29 17:47:30,229] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-29 17:51:59,243] INFO [__main__:48] Structured logging initialized.
+[2026-06-29 17:51:59,909] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-29 17:51:59,909] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-29 17:51:59,909] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-29 17:51:59,915] INFO [__main__:254] API Docs:  http://localhost:9000/docs

@@ -1,6 +1,6 @@
 import { getDummyData } from './dummyData';
 
-export const API = 'https://catalystscan.bostontechindia.in';
+export const API = '';
 
 export function getAuthToken() {
     const auth = sessionStorage.getItem('catalyst_auth');
