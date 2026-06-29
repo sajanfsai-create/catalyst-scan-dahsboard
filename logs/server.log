@@ -123,3 +123,8 @@ ConnectionResetError: [WinError 10054] An existing connection was forcibly close
 [2026-06-29 17:51:59,909] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
 [2026-06-29 17:51:59,909] INFO [__main__:253] Downloads: http://localhost:9000/downloads
 [2026-06-29 17:51:59,915] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-29 19:57:22,037] INFO [__main__:48] Structured logging initialized.
+[2026-06-29 19:57:22,591] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-29 19:57:22,591] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-29 19:57:22,591] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-29 19:57:22,601] INFO [__main__:254] API Docs:  http://localhost:9000/docs
