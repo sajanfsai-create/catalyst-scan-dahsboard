@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  # ── MySQL Database ──
+  mysql:
+    image: mysql:8.0
+    container_name: catalystscan-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - catalystscan-net
+
+  # ── CatalystScan App ──
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: catalystscan-app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_HOST: mysql
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+      - ./uploads:/app/uploads
+      - ./generated_builds:/app/generated_builds
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - catalystscan-net
+
+volumes:
+  mysql_data:
+
+networks:
+  catalystscan-net:
+    driver: bridge
