@@ -1,22 +1,6 @@
 # ── CatalystScan Dashboard — Dockerfile ──
-# Multi-stage: build React frontend, then package with FastAPI backend
+# Single stage: Python backend + vanilla JS/HTML/CSS frontend (no build step needed)
 
-# ───────────────────────────────────────
-# Stage 1: Build React frontend
-# ───────────────────────────────────────
-FROM node:20-alpine AS frontend-builder
-
-WORKDIR /app/dashboard
-
-COPY dashboard/package*.json ./
-RUN npm ci --silent
-
-COPY dashboard/ ./
-RUN npm run build
-
-# ───────────────────────────────────────
-# Stage 2: Python backend + built frontend
-# ───────────────────────────────────────
 FROM python:3.11-slim
 
 # System deps
@@ -34,9 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY *.py ./
 COPY routers/ ./routers/
 
-# Copy built frontend from Stage 1
-# The React build output goes into dashboard/dist → we serve it as 'dashboard/'
-COPY --from=frontend-builder /app/dashboard/dist ./dashboard/
+# Copy dashboard frontend (vanilla HTML/JS/CSS — no build step needed)
+COPY dashboard/ ./dashboard/
 
 # Create runtime directories
 RUN mkdir -p logs reports uploads generated_builds
@@ -44,7 +27,7 @@ RUN mkdir -p logs reports uploads generated_builds
 # Expose app port
 EXPOSE 9000
 
-# Run with Gunicorn (production) or Uvicorn (dev override)
+# Run with Gunicorn + Uvicorn workers
 CMD ["gunicorn", "main:app", \
      "--worker-class", "uvicorn.workers.UvicornWorker", \
      "--workers", "2", \
