@@ -78,3 +78,21 @@ Traceback (most recent call last):
   File "C:\Users\venga\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
     self._sock.shutdown(socket.SHUT_RDWR)
 ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[2026-06-24 13:06:10,022] INFO [main:48] Structured logging initialized.
+[2026-06-24 13:06:11,893] INFO [httpx:1025] HTTP Request: GET http://testserver/api/feature-check/network-scan/valid_fp "HTTP/1.1 200 OK"
+[2026-06-24 13:06:11,914] INFO [httpx:1025] HTTP Request: GET http://testserver/api/auth/session "HTTP/1.1 401 Unauthorized"
+[2026-06-24 13:06:12,008] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-06-24 13:06:12,025] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 401 Unauthorized"
+[2026-06-24 13:06:12,049] INFO [httpx:1025] HTTP Request: GET http://testserver/api/dashboard/stats "HTTP/1.1 200 OK"
+[2026-06-24 13:06:12,069] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/non_existent_fp "HTTP/1.1 404 Not Found"
+[2026-06-24 13:06:12,090] INFO [httpx:1025] HTTP Request: GET http://testserver/api/license/valid_fp "HTTP/1.1 200 OK"
+[2026-06-24 13:06:12,122] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 401 Unauthorized"
+[2026-06-24 13:06:12,241] INFO [httpx:1025] HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+[2026-06-24 13:06:12,340] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry/heartbeat "HTTP/1.1 200 OK"
+[2026-06-24 13:06:12,416] INFO [httpx:1025] HTTP Request: POST http://testserver/api/alert/tamper "HTTP/1.1 200 OK"
+[2026-06-24 13:06:12,460] INFO [httpx:1025] HTTP Request: POST http://testserver/api/telemetry "HTTP/1.1 200 OK"
+[2026-06-24 13:10:40,224] INFO [__main__:48] Structured logging initialized.
+[2026-06-24 13:10:41,431] INFO [__main__:251] Starting Bostontech CatalystScan Dashboard Server...
+[2026-06-24 13:10:41,432] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
+[2026-06-24 13:10:41,432] INFO [__main__:253] Downloads: http://localhost:9000/downloads
+[2026-06-24 13:10:41,433] INFO [__main__:254] API Docs:  http://localhost:9000/docs
