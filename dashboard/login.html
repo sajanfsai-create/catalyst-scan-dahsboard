@@ -1,130 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tekki X | Organization Login</title>
-    <meta name="theme-color" content="#1B5E20">
-    
+    <meta name="theme-color" content="#0C1F17">
+
     <!-- Open Graph / SEO -->
     <meta property="og:title" content="Tekki X — CatalystScan Fleet Dashboard">
     <meta property="og:description" content="Central administration and health monitoring for your IT hardware fleet.">
     <meta property="og:image" content="logo.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json?v=2.3">
     <link rel="apple-touch-icon" href="logo.png">
 
     <link rel="stylesheet" href="styles.css?v=3.2">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: #070D0A;
+            background: #0C1F17;
             background-image:
-                radial-gradient(ellipse at 20% 30%, rgba(27, 94, 32, 0.20) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(249, 168, 37, 0.08) 0%, transparent 50%);
+                radial-gradient(ellipse at 25% 20%, rgba(27, 107, 74, 0.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 75%, rgba(232, 145, 58, 0.10) 0%, transparent 55%);
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
+
         .login-container {
-            background: rgba(12, 22, 16, 0.70);
-            border: 1px solid rgba(139, 195, 155, 0.10);
-            backdrop-filter: blur(20px);
+            background: rgba(12, 31, 23, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px) saturate(1.4);
+            -webkit-backdrop-filter: blur(30px) saturate(1.4);
             border-radius: 20px;
             padding: 48px 40px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6),
-                        inset 0 1px 0 rgba(249, 168, 37, 0.08);
+            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
             text-align: center;
-            animation: slideUp 0.5s ease forwards;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
+
         .login-container .brand-logo {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             margin: 0 auto 16px;
-            background: linear-gradient(135deg, #1B5E20, #0A2E0F);
+            background: linear-gradient(135deg, #1B6B4A, #145A3D);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(27, 94, 32, 0.35);
+            box-shadow: 0 4px 16px rgba(27, 107, 74, 0.30);
         }
+
         .login-container .brand-logo img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
+
         .login-container h2 {
             font-family: 'Outfit', sans-serif;
             font-size: 24px;
             font-weight: 800;
-            color: #f0f7f2;
+            color: #FFFFFF;
             margin-bottom: 8px;
+            letter-spacing: -0.3px;
         }
+
         .login-container .subtitle {
-            font-size: 14px;
-            color: #8FA99A;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.45);
             margin-bottom: 32px;
         }
+
         .login-container input {
             display: block;
             width: 100%;
-            padding: 14px 16px;
-            background: rgba(7, 13, 10, 0.5);
-            border: 1px solid rgba(139, 195, 155, 0.12);
+            padding: 13px 16px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px;
-            color: #f0f7f2;
-            font-size: 15px;
+            color: #FFFFFF;
+            font-size: 14px;
             font-family: inherit;
             outline: none;
             margin-bottom: 16px;
             transition: all 0.25s;
         }
-        .login-container input:focus {
-            border-color: #F9A825;
-            box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.25);
+
+        .login-container input::placeholder {
+            color: rgba(255, 255, 255, 0.25);
         }
+
+        .login-container input:focus {
+            border-color: #E8913A;
+            box-shadow: 0 0 0 3px rgba(232, 145, 58, 0.15);
+            background: rgba(0, 0, 0, 0.35);
+        }
+
         .login-container button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #1B5E20, #0A2E0F);
+            background: linear-gradient(135deg, #1B6B4A, #145A3D);
             color: white;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.25s;
             margin-top: 8px;
-            box-shadow: 0 4px 15px rgba(27, 94, 32, 0.4);
+            box-shadow: 0 2px 12px rgba(27, 107, 74, 0.30);
+            letter-spacing: 0.02em;
         }
+
         .login-container button:hover {
-            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            background: linear-gradient(135deg, #1E7E56, #1B6B4A);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(27, 94, 32, 0.6);
+            box-shadow: 0 6px 20px rgba(27, 107, 74, 0.45);
         }
+
         .login-container .footer-text {
             margin-top: 20px;
             font-size: 11px;
-            color: #5C7A69;
+            color: rgba(255, 255, 255, 0.25);
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
-        <div class="brand-logo"><img src="logo.png" alt="Tekki X" onerror="this.onerror=null; this.parentElement.innerHTML='⚡';"></div>
+        <div class="brand-logo"><img src="logo.png" alt="Tekki X"
+                onerror="this.onerror=null; this.parentElement.innerHTML='⚡';"></div>
         <h2>Organization Login</h2>
         <div class="subtitle">Tekki X — CatalystScan Fleet Dashboard</div>
         <input type="text" id="org_name" placeholder="Organization Name (Username)">
@@ -142,7 +173,7 @@
             // Call the server to verify if this Org Name + ID pair exists
             const response = await fetch('/api/dashboard/orgs');
             const data = await response.json();
-            
+
             const match = data.organizations.find(o => o.name === name && o.org_id === id);
 
             if (match) {
@@ -154,4 +185,5 @@
         }
     </script>
 </body>
+
 </html>

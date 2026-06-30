@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1B5E20">
+    <meta name="theme-color" content="#0C1F17">
 
     <!-- Open Graph / SEO -->
     <meta property="og:title" content="Tekki X — CatalystScan Fleet Dashboard">
@@ -21,7 +21,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.1">
+    <link rel="stylesheet" href="styles.css?v=3.5">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
 
 
@@ -53,102 +54,129 @@
                 <label for="login-remember" style="margin:0; font-size:13px; font-weight:400; cursor:pointer;">Remember
                     me for 30 days</label>
             </div>
-            <button class="login-btn" onclick="doLogin()">🔐 Sign In</button>
+            <button class="login-btn" onclick="doLogin()"><iconify-icon icon="lucide:lock"></iconify-icon> Sign
+                In</button>
 
         </div>
     </div>
 
     <!-- App Layout Wrapper (Grid: sidebar + main) -->
-    <div class="app-layout" id="app-layout" style="display:none;">
+    <div class="app-layout" id="app-layout" style="display:grid;">
 
         <!-- Sidebar -->
         <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-logo" style="padding: 24px 16px 0 16px; display: flex; justify-content: flex-start;">
+                <img src="logo.png" alt="Tekki X CatalystScan" style="height: 36px; width: auto;"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="display: none; color: white; font-weight: 800; font-size: 20px; letter-spacing: -0.5px;">
+                    Tekki X <span
+                        style="color: var(--accent-gold); font-size: 12px; vertical-align: middle;">SCAN</span></div>
+            </div>
             <div class="sidebar-brand">
-                <div class="brand-icon"><img src="logo.png" alt="Tekki X"
-                        onerror="this.onerror=null; this.parentElement.textContent='⚡';"></div>
-                <div>
-                    <h1>Tekki X</h1>
-                    <span class="brand-sub">CatalystScan</span>
+                <div class="brand-icon">CT</div>
+                <div class="brand-info">
+                    <h1>CompuTech Services</h1>
+                    <span class="brand-sub">Preferred Repair Partner</span>
                 </div>
             </div>
             <nav class="sidebar-nav">
                 <div class="nav-section-title">Core Focus</div>
                 <a href="#" class="nav-item active" data-view="overview">
-                    <span class="nav-icon">📊</span> Overview
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:layout-dashboard"></iconify-icon></span> Overview
                 </a>
                 <a href="#" class="nav-item" data-view="devices">
-                    <span class="nav-icon">💻</span> Devices
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:laptop"></iconify-icon></span> Devices
                 </a>
                 <a href="#" class="nav-item" data-view="dbexplorer" data-role="super_admin">
-                    <span class="nav-icon">🗄️</span> DB Explorer
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:database"></iconify-icon></span> DB Explorer
                 </a>
 
                 <div class="nav-section-title">Insights & Reports</div>
                 <a href="#" class="nav-item" data-view="ewaste">
-                    <span class="nav-icon">♻️</span> E-Waste
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:recycle"></iconify-icon></span> E-Waste
                 </a>
                 <a href="#" class="nav-item" data-view="amc">
-                    <span class="nav-icon">📅</span> AMC Tracker
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:calendar"></iconify-icon></span> AMC Tracker
                 </a>
                 <a href="#" class="nav-item" data-view="compliance">
-                    <span class="nav-icon">📄</span> Compliance Reports
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:file-text"></iconify-icon></span> Compliance Reports
                 </a>
                 <a href="#" class="nav-item" data-view="lab-util">
-                    <span class="nav-icon">🖥️</span> Lab Utilization
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:monitor"></iconify-icon></span> Lab Utilization
                 </a>
 
                 <div class="nav-section-title">Administration</div>
                 <a href="#" class="nav-item" data-view="partners" data-role="super_admin">
-                    <span class="nav-icon">🤝</span> Partners
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:users"></iconify-icon></span> Partners
                 </a>
                 <a href="#" class="nav-item" data-view="users" data-role="super_admin">
-                    <span class="nav-icon">👤</span> Users
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:user"></iconify-icon></span> Users
                 </a>
                 <a href="#" class="nav-item" data-view="multi-org" data-role="super_admin">
-                    <span class="nav-icon">🏢</span> Multi-Org
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:building"></iconify-icon></span> Multi-Org
                 </a>
                 <a href="#" class="nav-item" data-view="alerts">
-                    <span class="nav-icon">🔔</span> Alerts
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:bell"></iconify-icon></span> Alerts
                     <span class="badge badge-danger" id="alert-badge" style="display:none">0</span>
                 </a>
                 <a href="#" class="nav-item" data-view="alert-config" data-role="super_admin">
-                    <span class="nav-icon">⚙️</span> Alert Config
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:settings"></iconify-icon></span> Alert Config
                 </a>
                 <a href="#" class="nav-item" data-view="licenses" data-role="super_admin">
-                    <span class="nav-icon">🔑</span> Licenses
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:key"></iconify-icon></span> Licenses
                 </a>
                 <a href="#" class="nav-item" data-view="orgs" data-role="super_admin">
-                    <span class="nav-icon">🏛️</span> Organizations
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:landmark"></iconify-icon></span> Organizations
                 </a>
                 <a href="#" class="nav-item" data-view="builder" data-role="partner_or_admin">
-                    <span class="nav-icon">🔧</span> Build .exe
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:wrench"></iconify-icon></span> Build .exe
                 </a>
                 <a href="#" class="nav-item" data-view="site-settings" data-role="super_admin">
-                    <span class="nav-icon">⚙️</span> Site Settings
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:settings"></iconify-icon></span> Site Settings
                 </a>
                 <a href="#" class="nav-item" data-view="credits">
-                    <span class="nav-icon">💰</span> Credits & Billing
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:dollar-sign"></iconify-icon></span> Credits & Billing
                 </a>
                 <a href="#" class="nav-item" data-view="mgmt-reports" data-role="partner_or_admin">
-                    <span class="nav-icon">📊</span> Management Reports
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:layout-dashboard"></iconify-icon></span> Management Reports
                 </a>
                 <a href="#" class="nav-item" data-view="audit-log" data-role="super_admin">
-                    <span class="nav-icon">📋</span> Audit Log
+                    <span class="nav-icon" style="display:flex;align-items:center;"><iconify-icon
+                            icon="lucide:clipboard-list"></iconify-icon></span> Audit Log
                 </a>
             </nav>
             <div class="sidebar-footer">
                 <div style="display:flex;align-items:center;gap:10px;">
-                    <div style="width:32px;height:32px;border-radius:8px;background:var(--primary-glow);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;"
+                    <div style="width:32px;height:32px;border-radius:8px;background:rgba(232,145,58,0.12);color:#E8913A;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;"
                         id="admin-avatar">A</div>
                     <div>
                         <div id="admin-user-label"
-                            style="font-weight:600;font-size:13px;color:var(--text-primary);line-height:1.3;">
+                            style="font-weight:600;font-size:13px;color:rgba(255,255,255,0.85);line-height:1.3;">
                             Administrator</div>
                         <span id="admin-role-badge"
                             style="display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;line-height:1.4;"></span>
                     </div>
                 </div>
-                <button class="logout-btn" onclick="doLogout()">↪ Logout</button>
+                <button class="logout-btn" onclick="doLogout()"><iconify-icon icon="lucide:log-out"></iconify-icon>
+                    Logout</button>
             </div>
         </aside>
 
@@ -182,11 +210,16 @@
                         <option value="">All Organizations</option>
                     </select>
                     <button class="theme-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode"
-                        id="theme-toggle-btn">🌙</button>
-                    <button class="btn btn-ghost" onclick="refreshData()" id="refresh-btn">🔄 Refresh</button>
-                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" id="mobile-menu-btn">☰</button>
+                        id="theme-toggle-btn"><iconify-icon icon="lucide:moon" id="theme-icon"></iconify-icon></button>
+                    <button class="btn btn-ghost btn-refresh-styled" onclick="refreshData()" id="refresh-btn">
+                        <span class="refresh-icon-badge"><iconify-icon icon="lucide:refresh-cw"
+                                class="refresh-icon"></iconify-icon></span>
+                        Refresh
+                    </button>
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" id="mobile-menu-btn"><iconify-icon
+                            icon="lucide:menu"></iconify-icon></button>
                     <div class="status-indicator">
-                        <span class="status-dot online"></span> Dashboard Connected
+                        <span class="status-dot online"></span> Connected
                     </div>
                 </div>
             </header>
@@ -217,8 +250,10 @@
                                     <option value="users">Users</option>
                                 </select>
                             </div>
-                            <button class="btn btn-primary" onclick="fetchGlobalTableData()">🔄 Sync Data</button>
-                            <button class="btn btn-ghost" onclick="downloadDBExplorerCSV()" id="db-csv-btn">📥
+                            <button class="btn btn-primary" onclick="fetchGlobalTableData()"><iconify-icon
+                                    icon="lucide:refresh-cw"></iconify-icon> Sync Data</button>
+                            <button class="btn btn-ghost" onclick="downloadDBExplorerCSV()"
+                                id="db-csv-btn"><iconify-icon icon="lucide:download"></iconify-icon>
                                 Download
                                 CSV</button>
                         </div>
@@ -229,7 +264,8 @@
                                     <tr>
                                         <td colspan="100%"
                                             style="text-align:center;padding:48px 24px;color:var(--text-muted);">
-                                            <div style="font-size:28px;margin-bottom:8px;">🗄️</div>
+                                            <div style="font-size:28px;margin-bottom:8px;"><iconify-icon
+                                                    icon="lucide:database"></iconify-icon></div>
                                             <div style="font-size:13px;font-weight:500;">Select a table and click
                                                 Sync
                                                 to explore</div>
@@ -248,28 +284,28 @@
                 <!-- Stats Cards -->
                 <div class="stats-grid">
                     <div class="stat-card" data-tooltip="All registered devices across organizations">
-                        <div class="stat-icon blue">🖥</div>
+                        <div class="stat-icon blue"><iconify-icon icon="lucide:monitor"></iconify-icon></div>
                         <div class="stat-info">
                             <span class="stat-value" id="stat-total">-</span>
                             <span class="stat-label">Total Devices</span>
                         </div>
                     </div>
                     <div class="stat-card" data-tooltip="Devices that checked in within the last 5 minutes">
-                        <div class="stat-icon green">📶</div>
+                        <div class="stat-icon green"><iconify-icon icon="lucide:wifi"></iconify-icon></div>
                         <div class="stat-info">
                             <span class="stat-value" id="stat-online">-</span>
                             <span class="stat-label">Online</span>
                         </div>
                     </div>
                     <div class="stat-card" data-tooltip="Devices not seen for more than 5 minutes">
-                        <div class="stat-icon red">📵</div>
+                        <div class="stat-icon red"><iconify-icon icon="lucide:wifi-off"></iconify-icon></div>
                         <div class="stat-info">
                             <span class="stat-value" id="stat-offline">-</span>
                             <span class="stat-label">Offline</span>
                         </div>
                     </div>
                     <div class="stat-card" data-tooltip="Unresolved tamper and security alerts">
-                        <div class="stat-icon yellow">⚠</div>
+                        <div class="stat-icon yellow"><iconify-icon icon="lucide:alert-triangle"></iconify-icon></div>
                         <div class="stat-info">
                             <span class="stat-value" id="stat-alerts">-</span>
                             <span class="stat-label">Active Alerts</span>
@@ -329,7 +365,8 @@
                         <h3>All Registered Devices</h3>
                         <div id="batch-toolbar" style="display:flex; gap:8px; margin-top:8px;">
                             <button class="btn btn-ghost btn-sm" onclick="exportDevicesCSV()"
-                                title="Export all devices to CSV">📥 Export CSV</button>
+                                title="Export all devices to CSV"><iconify-icon icon="lucide:download"></iconify-icon>
+                                Export CSV</button>
                             <button id="compare-btn" class="btn btn-ghost btn-sm" style="display:none;"
                                 onclick="compareDevices()">Compare (0)</button>
                             <button id="batch-scans-btn" class="btn btn-success btn-sm" style="display:none;"
@@ -411,15 +448,16 @@
                             </tbody>
                         </table>
                         <hr>
-                        <h4 class="mt-3">📤 Bulk License Manager</h4>
+                        <h4 class="mt-3"><iconify-icon icon="lucide:upload"></iconify-icon> Bulk License Manager</h4>
                         <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px;">Upload a CSV file
                             to
                             add scan credits to multiple devices at once.</p>
                         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-                            <button class="btn btn-ghost" onclick="downloadBulkTemplate()">📥 Download CSV
+                            <button class="btn btn-ghost" onclick="downloadBulkTemplate()"><iconify-icon
+                                    icon="lucide:download"></iconify-icon> Download CSV
                                 Template</button>
                             <label class="btn btn-primary" style="cursor:pointer;">
-                                📤 Upload CSV
+                                <iconify-icon icon="lucide:upload"></iconify-icon> Upload CSV
                                 <input type="file" id="bulk-csv-input" accept=".csv" style="display:none;"
                                     onchange="uploadBulkCSV(this)">
                             </label>
@@ -464,7 +502,8 @@
                 <!-- Fingerprint Explainer -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>📋 What is a Device Fingerprint?</h3>
+                        <h3><iconify-icon icon="lucide:clipboard-list"></iconify-icon> What is a Device Fingerprint?
+                        </h3>
                     </div>
                     <div class="card-body">
                         <div class="info-box">
@@ -500,7 +539,7 @@
                 <!-- How the .exe Works -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>⚙️ How the .exe Generation Works</h3>
+                        <h3><iconify-icon icon="lucide:settings"></iconify-icon> How the .exe Generation Works</h3>
                     </div>
                     <div class="card-body">
                         <div class="steps-list">
@@ -527,7 +566,7 @@
                 <!-- Upload Base .exe Template -->
                 <div class="card" id="upload-card">
                     <div class="card-header">
-                        <h3>📤 Step 0: Upload Base CatalystScan.exe</h3>
+                        <h3><iconify-icon icon="lucide:upload"></iconify-icon> Step 0: Upload Base CatalystScan.exe</h3>
                     </div>
                     <div class="card-body">
                         <div id="exe-status" class="info-box mb-3">
@@ -535,7 +574,8 @@
                         </div>
                         <div class="form-inline">
                             <input type="file" id="exe-file-input" accept=".exe" class="input" style="flex:1">
-                            <button class="btn btn-primary" onclick="uploadExe()" id="upload-btn">📤 Upload
+                            <button class="btn btn-primary" onclick="uploadExe()" id="upload-btn"><iconify-icon
+                                    icon="lucide:upload"></iconify-icon> Upload
                                 .exe</button>
                         </div>
                         <div id="upload-progress-container" style="display:none; margin-top:15px;">
@@ -544,7 +584,7 @@
                                     id="upload-status-text">Uploading... 0%</span>
                             </div>
                             <div
-                                style="width:100%; background:#2c2c2c; border-radius:4px; height:8px; overflow:hidden;">
+                                style="width:100%; background:var(--bg-primary); border-radius:4px; height:8px; overflow:hidden; border:1px solid var(--border);">
                                 <div id="upload-progress-bar"
                                     style="width:0%; background:var(--accent-blue); height:100%; transition:width 0.2s;">
                                 </div>
@@ -557,7 +597,7 @@
                 <!-- Build Form -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>🔧 Generate Organization-Specific .exe</h3>
+                        <h3><iconify-icon icon="lucide:wrench"></iconify-icon> Generate Organization-Specific .exe</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-grid">
@@ -568,7 +608,8 @@
                                 value="https://catalystscan.bostontechindia.in" class="input">
                             <input type="number" id="build-scan-limit" placeholder="Scan Limit" value="2" min="1"
                                 class="input">
-                            <button class="btn btn-primary" onclick="buildExe()" id="build-btn">🔧 Generate .exe
+                            <button class="btn btn-primary" onclick="buildExe()" id="build-btn"><iconify-icon
+                                    icon="lucide:wrench"></iconify-icon> Generate .exe
                                 Package</button>
                         </div>
                         <div id="build-result" class="mt-3"></div>
@@ -578,7 +619,7 @@
                 <!-- Previous Builds -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>📦 Previous Builds</h3>
+                        <h3><iconify-icon icon="lucide:package"></iconify-icon> Previous Builds</h3>
                     </div>
                     <div class="card-body" id="builds-list">
                         <p class="loading">Loading...</p>
@@ -598,7 +639,7 @@
                 <!-- Super Admin: Add Credits to Partner -->
                 <div class="card" id="credit-add-section" style="display:none;">
                     <div class="card-header">
-                        <h3>➕ Add Credits to Partner</h3>
+                        <h3><iconify-icon icon="lucide:plus"></iconify-icon> Add Credits to Partner</h3>
                     </div>
                     <div class="card-body">
                         <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end;">
@@ -616,7 +657,8 @@
                                 <input type="number" id="credit-amount-inr" class="input" placeholder="e.g. 995"
                                     min="199" step="199">
                             </div>
-                            <button class="btn btn-primary" onclick="addCredits()">💰 Add Credits</button>
+                            <button class="btn btn-primary" onclick="addCredits()"><iconify-icon
+                                    icon="lucide:dollar-sign"></iconify-icon> Add Credits</button>
                         </div>
                         <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">
                             Rate: <strong>₹199/scan</strong> — ₹995 = 5 scans, ₹1990 = 10 scans
@@ -627,7 +669,7 @@
                 <!-- Partner: Allocate Credits to Org -->
                 <div class="card" id="credit-allocate-section" style="display:none;">
                     <div class="card-header">
-                        <h3>📤 Allocate Credits to End Customer</h3>
+                        <h3><iconify-icon icon="lucide:upload"></iconify-icon> Allocate Credits to End Customer</h3>
                     </div>
                     <div class="card-body">
                         <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end;">
@@ -644,7 +686,8 @@
                                     to Allocate</label>
                                 <input type="number" id="allocate-credits" class="input" placeholder="e.g. 10" min="1">
                             </div>
-                            <button class="btn btn-success" onclick="allocateCredits()">📤 Allocate</button>
+                            <button class="btn btn-success" onclick="allocateCredits()"><iconify-icon
+                                    icon="lucide:upload"></iconify-icon> Allocate</button>
                         </div>
                     </div>
                 </div>
@@ -652,7 +695,7 @@
                 <!-- Org Balances (Partner view) -->
                 <div class="card" id="credit-org-balances" style="display:none;">
                     <div class="card-header">
-                        <h3>🏢 End Customer Balances</h3>
+                        <h3><iconify-icon icon="lucide:building"></iconify-icon> End Customer Balances</h3>
                     </div>
                     <div class="card-body" id="org-balances-body">
                         <p class="loading">Loading...</p>
@@ -662,7 +705,7 @@
                 <!-- Transaction Ledger -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>📒 Transaction History</h3>
+                        <h3><iconify-icon icon="lucide:book"></iconify-icon> Transaction History</h3>
                     </div>
                     <div class="card-body" id="credit-ledger-body">
                         <p class="loading">Loading...</p>
@@ -674,7 +717,7 @@
             <div id="view-ewaste" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>♻️ E-Waste Compliance Report</h3>
+                        <h3><iconify-icon icon="lucide:recycle"></iconify-icon> E-Waste Compliance Report</h3>
                     </div>
                     <div class="card-body" id="ewaste-content">
                         <p class="loading">Loading...</p>
@@ -686,7 +729,7 @@
             <div id="view-amc" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>📅 AMC / Warranty Tracker</h3>
+                        <h3><iconify-icon icon="lucide:calendar"></iconify-icon> AMC / Warranty Tracker</h3>
                     </div>
                     <div class="card-body" id="amc-content">
                         <p class="loading">Loading...</p>
@@ -698,51 +741,61 @@
             <div id="view-compliance" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>📊 Export Reports</h3>
+                        <h3><iconify-icon icon="lucide:layout-dashboard"></iconify-icon> Export Reports</h3>
                     </div>
                     <div class="card-body">
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                             <div style="padding:20px; background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.2); border-radius:8px; cursor:pointer;"
                                 onclick="downloadAssetCSV()">
-                                <h4 style="margin-bottom:8px;">📋 AICTE/UGC Asset Register</h4>
+                                <h4 style="margin-bottom:8px;"><iconify-icon
+                                        icon="lucide:clipboard-list"></iconify-icon> AICTE/UGC Asset Register</h4>
                                 <p style="font-size:13px; color:var(--text-muted);">Download device inventory in the
                                     format required for annual AICTE/UGC affiliation submissions.</p>
-                                <button class="btn btn-primary btn-sm" style="margin-top:10px;">⬇️ Download
+                                <button class="btn btn-primary btn-sm" style="margin-top:10px;"><iconify-icon
+                                        icon="lucide:download"></iconify-icon> Download
                                     CSV</button>
                             </div>
                             <div style="padding:20px; background:rgba(14,165,233,0.05); border:1px solid rgba(14,165,233,0.2); border-radius:8px; cursor:pointer;"
                                 onclick="downloadComponentPartsCSV()">
-                                <h4 style="margin-bottom:8px;">⚙️ Component Part Codes</h4>
+                                <h4 style="margin-bottom:8px;"><iconify-icon icon="lucide:settings"></iconify-icon>
+                                    Component Part Codes</h4>
                                 <p style="font-size:13px; color:var(--text-muted);">Export Motherboard, CPU,
                                     Storage,
                                     RAM, and MAC component serials for resale & rental audits.</p>
-                                <button class="btn btn-primary btn-sm" style="margin-top:10px;">⬇️ Export
+                                <button class="btn btn-primary btn-sm" style="margin-top:10px;"><iconify-icon
+                                        icon="lucide:download"></iconify-icon> Export
                                     CSV</button>
                             </div>
                             <div style="padding:20px; background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.2); border-radius:8px; cursor:pointer;"
                                 onclick="downloadEwasteReport()">
-                                <h4 style="margin-bottom:8px;">♻️ E-Waste Compliance Report</h4>
+                                <h4 style="margin-bottom:8px;"><iconify-icon icon="lucide:recycle"></iconify-icon>
+                                    E-Waste Compliance Report</h4>
                                 <p style="font-size:13px; color:var(--text-muted);">MoEFCC-compliant e-waste
                                     disposal
                                     register with device lifecycle assessment.</p>
-                                <button class="btn btn-success btn-sm" style="margin-top:10px;">📄 View
+                                <button class="btn btn-success btn-sm" style="margin-top:10px;"><iconify-icon
+                                        icon="lucide:file-text"></iconify-icon> View
                                     Report</button>
                             </div>
                             <div style="padding:20px; background:rgba(234,179,8,0.05); border:1px solid rgba(234,179,8,0.2); border-radius:8px; cursor:pointer;"
                                 onclick="viewSoftwareAudit()">
-                                <h4 style="margin-bottom:8px;">💾 Software Audit Report</h4>
+                                <h4 style="margin-bottom:8px;"><iconify-icon icon="lucide:save"></iconify-icon> Software
+                                    Audit Report</h4>
                                 <p style="font-size:13px; color:var(--text-muted);">NAAC/NBA-compliant software
                                     inventory across all managed devices.</p>
-                                <button class="btn btn-outline btn-sm" style="margin-top:10px;">🔍 View
+                                <button class="btn btn-outline btn-sm" style="margin-top:10px;"><iconify-icon
+                                        icon="lucide:search"></iconify-icon> View
                                     Audit</button>
                             </div>
                             <div style="padding:20px; background:rgba(168,85,247,0.05); border:1px solid rgba(168,85,247,0.2); border-radius:8px; cursor:pointer;"
                                 onclick="loadBulkLicenseUI()">
-                                <h4 style="margin-bottom:8px;">🔑 Bulk License Manager</h4>
+                                <h4 style="margin-bottom:8px;"><iconify-icon icon="lucide:key"></iconify-icon> Bulk
+                                    License Manager</h4>
                                 <p style="font-size:13px; color:var(--text-muted);">Upload CSV of fingerprints to
                                     add
                                     scan credits in bulk across 200+ devices.</p>
-                                <button class="btn btn-outline btn-sm" style="margin-top:10px;">📤 Upload
+                                <button class="btn btn-outline btn-sm" style="margin-top:10px;"><iconify-icon
+                                        icon="lucide:upload"></iconify-icon> Upload
                                     CSV</button>
                             </div>
                         </div>
@@ -755,7 +808,7 @@
             <div id="view-lab-util" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>🖥️ Lab Utilization Report</h3>
+                        <h3><iconify-icon icon="lucide:monitor"></iconify-icon> Lab Utilization Report</h3>
                     </div>
                     <div class="card-body" id="lab-util-content">
                         <p class="loading">Loading...</p>
@@ -767,7 +820,7 @@
             <div id="view-multi-org" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>🏢 Multi-Organization Fleet Overview</h3>
+                        <h3><iconify-icon icon="lucide:building"></iconify-icon> Multi-Organization Fleet Overview</h3>
                     </div>
                     <div class="card-body" id="multi-org-content">
                         <p class="loading">Loading...</p>
@@ -780,7 +833,7 @@
             <div id="view-partners" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>🤝 Partner Management</h3>
+                        <h3><iconify-icon icon="lucide:users"></iconify-icon> Partner Management</h3>
                         <button class="btn btn-primary" onclick="showCreatePartnerModal()">+ New Partner</button>
                     </div>
                     <div class="card-body" id="partners-content">
@@ -793,7 +846,7 @@
             <div id="view-users" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>👤 User Management</h3>
+                        <h3><iconify-icon icon="lucide:user"></iconify-icon> User Management</h3>
                         <button class="btn btn-primary" onclick="showCreateUserModal()">+ New User</button>
                     </div>
                     <div class="card-body" id="users-content">
@@ -807,7 +860,7 @@
             <div id="view-mgmt-reports" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>📊 Executive Reports</h3>
+                        <h3><iconify-icon icon="lucide:layout-dashboard"></iconify-icon> Executive Reports</h3>
                     </div>
                     <div class="card-body">
                         <p style="color:var(--text-muted);margin-bottom:16px;">Generate professional PDF reports for
@@ -822,9 +875,13 @@
                             <div class="login-field">
                                 <label>Report Type</label>
                                 <select id="report-type-select" class="input">
-                                    <option value="academic">🎓 Academic (HOD / Principal / Management)</option>
-                                    <option value="industry_it">🖥️ Industry — IT Manager (Technical)</option>
-                                    <option value="industry_mgmt">📈 Industry — Management (Executive Summary)
+                                    <option value="academic"><iconify-icon icon="lucide:graduation-cap"></iconify-icon>
+                                        Academic (HOD / Principal / Management)</option>
+                                    <option value="industry_it"><iconify-icon icon="lucide:monitor"></iconify-icon>
+                                        Industry — IT Manager (Technical)</option>
+                                    <option value="industry_mgmt"><iconify-icon
+                                            icon="lucide:trending-up"></iconify-icon> Industry — Management (Executive
+                                        Summary)
                                     </option>
                                 </select>
                             </div>
@@ -844,7 +901,8 @@
                             </div>
                             <div class="login-field" style="display:flex;align-items:flex-end;">
                                 <button class="btn btn-primary" onclick="generateReport()" id="report-generate-btn"
-                                    style="width:100%;padding:12px;">📄 Generate Executive PDF Report</button>
+                                    style="width:100%;padding:12px;"><iconify-icon
+                                        icon="lucide:file-text"></iconify-icon> Generate Executive PDF Report</button>
                             </div>
                         </div>
                         <div id="report-result" style="margin-top:16px;"></div>
@@ -856,7 +914,7 @@
             <div id="view-audit-log" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>📋 Audit Log</h3>
+                        <h3><iconify-icon icon="lucide:clipboard-list"></iconify-icon> Audit Log</h3>
                         <div style="display:flex;gap:8px;align-items:center;">
                             <input id="audit-filter-user" class="input input-small" placeholder="Username"
                                 style="width:120px;">
@@ -866,7 +924,8 @@
                                 title="From date">
                             <input id="audit-filter-to" type="date" class="input input-small" style="width:140px;"
                                 title="To date">
-                            <button class="btn btn-sm btn-primary" onclick="loadAuditLog(0)">🔍 Search</button>
+                            <button class="btn btn-sm btn-primary" onclick="loadAuditLog(0)"><iconify-icon
+                                    icon="lucide:search"></iconify-icon> Search</button>
                             <button class="btn btn-sm btn-ghost" onclick="clearAuditFilters()">Clear</button>
                         </div>
                     </div>
@@ -883,7 +942,7 @@
             <div id="view-alert-config" class="view">
                 <div class="card">
                     <div class="card-header">
-                        <h3>🔔 Alert & Notification Settings</h3>
+                        <h3><iconify-icon icon="lucide:bell"></iconify-icon> Alert & Notification Settings</h3>
                     </div>
                     <div class="card-body" id="alert-config-content">
                         <p class="loading">Loading...</p>
@@ -911,7 +970,7 @@
     <div id="edit-org-modal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>📝 Edit Organization</h3>
+                <h3><iconify-icon icon="lucide:edit"></iconify-icon> Edit Organization</h3>
                 <button class="close-btn" onclick="closeEditModal()">×</button>
             </div>
             <form id="edit-org-form">

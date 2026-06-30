@@ -133,3 +133,36 @@ ConnectionResetError: [WinError 10054] An existing connection was forcibly close
 [2026-06-30 09:35:32,544] INFO [__main__:252] Dashboard: http://localhost:9000/dashboard/
 [2026-06-30 09:35:32,546] INFO [__main__:253] Downloads: http://localhost:9000/downloads
 [2026-06-30 09:35:32,546] INFO [__main__:254] API Docs:  http://localhost:9000/docs
+[2026-06-30 15:05:28,222] ERROR [asyncio:1758] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Users\venga\AppData\Local\Programs\Python\Python310\lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\venga\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[2026-06-30 15:07:58,931] INFO [__main__:48] Structured logging initialized.
+[2026-06-30 15:08:00,435] INFO [__main__:255] Starting Tekki X CatalystScan Dashboard Server...
+[2026-06-30 15:08:00,435] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
+[2026-06-30 15:08:00,438] INFO [__main__:257] Downloads: http://localhost:9000/downloads
+[2026-06-30 15:08:00,440] INFO [__main__:258] API Docs:  http://localhost:9000/docs
+[2026-06-30 15:12:05,727] INFO [__main__:48] Structured logging initialized.
+[2026-06-30 15:12:06,309] INFO [__main__:255] Starting Tekki X CatalystScan Dashboard Server...
+[2026-06-30 15:12:06,309] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
+[2026-06-30 15:12:06,316] INFO [__main__:257] Downloads: http://localhost:9000/downloads
+[2026-06-30 15:12:06,316] INFO [__main__:258] API Docs:  http://localhost:9000/docs
+[2026-06-30 15:29:39,036] INFO [__main__:48] Structured logging initialized.
+[2026-06-30 15:29:40,420] INFO [__main__:255] Starting Tekki X CatalystScan Dashboard Server...
+[2026-06-30 15:29:40,420] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
+[2026-06-30 15:29:40,420] INFO [__main__:257] Downloads: http://localhost:9000/downloads
+[2026-06-30 15:29:40,422] INFO [__main__:258] API Docs:  http://localhost:9000/docs
+[2026-06-30 16:05:11,282] INFO [__main__:48] Structured logging initialized.
+[2026-06-30 16:05:11,813] INFO [__main__:255] Starting Tekki X CatalystScan Dashboard Server...
+[2026-06-30 16:05:11,813] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
+[2026-06-30 16:05:11,813] INFO [__main__:257] Downloads: http://localhost:9000/downloads
+[2026-06-30 16:05:11,813] INFO [__main__:258] API Docs:  http://localhost:9000/docs
+[2026-06-30 16:38:30,641] INFO [__main__:48] Structured logging initialized.
+[2026-06-30 16:38:32,310] INFO [__main__:255] Starting Tekki X CatalystScan Dashboard Server...
+[2026-06-30 16:38:32,312] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
+[2026-06-30 16:38:32,313] INFO [__main__:257] Downloads: http://localhost:9000/downloads
+[2026-06-30 16:38:32,315] INFO [__main__:258] API Docs:  http://localhost:9000/docs
