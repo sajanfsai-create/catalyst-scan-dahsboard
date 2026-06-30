@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CatalystScan | Organization Login</title>
-    <meta name="theme-color" content="#0B1E4D">
+    <title>Tekki X | Organization Login</title>
+    <meta name="theme-color" content="#1B5E20">
     
     <!-- Open Graph / SEO -->
-    <meta property="og:title" content="CatalystScan Fleet Dashboard">
+    <meta property="og:title" content="Tekki X — CatalystScan Fleet Dashboard">
     <meta property="og:description" content="Central administration and health monitoring for your IT hardware fleet.">
-    <meta property="og:image" content="https://catalystscan.bostontechindia.in/dashboard/logo.png">
+    <meta property="og:image" content="logo.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     
@@ -17,12 +17,15 @@
     <link rel="manifest" href="manifest.json?v=2.3">
     <link rel="apple-touch-icon" href="logo.png">
 
-    <link rel="stylesheet" href="styles.css?v=2.3">
+    <link rel="stylesheet" href="styles.css?v=3.2">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: #F8FAFC;
+            background: #070D0A;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(27, 94, 32, 0.20) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(249, 168, 37, 0.08) 0%, transparent 50%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -30,26 +33,33 @@
             -webkit-font-smoothing: antialiased;
         }
         .login-container {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
+            background: rgba(12, 22, 16, 0.70);
+            border: 1px solid rgba(139, 195, 155, 0.10);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
             padding: 48px 40px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6),
+                        inset 0 1px 0 rgba(249, 168, 37, 0.08);
             text-align: center;
+            animation: slideUp 0.5s ease forwards;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .login-container .brand-logo {
             width: 64px;
             height: 64px;
             margin: 0 auto 16px;
-            background: linear-gradient(135deg, #0B1E4D, #0f766e);
-            border-radius: 10px;
+            background: linear-gradient(135deg, #1B5E20, #0A2E0F);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 8px 16px rgba(11, 30, 77, 0.25);
+            box-shadow: 0 8px 20px rgba(27, 94, 32, 0.35);
         }
         .login-container .brand-logo img {
             width: 100%;
@@ -60,22 +70,22 @@
             font-family: 'Outfit', sans-serif;
             font-size: 24px;
             font-weight: 800;
-            color: #1e293b;
+            color: #f0f7f2;
             margin-bottom: 8px;
         }
         .login-container .subtitle {
             font-size: 14px;
-            color: #64748b;
+            color: #8FA99A;
             margin-bottom: 32px;
         }
         .login-container input {
             display: block;
             width: 100%;
             padding: 14px 16px;
-            background: #F8FAFC;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            color: #1e293b;
+            background: rgba(7, 13, 10, 0.5);
+            border: 1px solid rgba(139, 195, 155, 0.12);
+            border-radius: 10px;
+            color: #f0f7f2;
             font-size: 15px;
             font-family: inherit;
             outline: none;
@@ -83,45 +93,45 @@
             transition: all 0.25s;
         }
         .login-container input:focus {
-            border-color: #0f766e;
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+            border-color: #F9A825;
+            box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.25);
         }
         .login-container button {
             width: 100%;
             padding: 14px;
-            background: #0f766e;
+            background: linear-gradient(135deg, #1B5E20, #0A2E0F);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.25s;
             margin-top: 8px;
-            box-shadow: 0 4px 6px rgba(11, 30, 77, 0.2);
+            box-shadow: 0 4px 15px rgba(27, 94, 32, 0.4);
         }
         .login-container button:hover {
-            background: #0d5f59;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(11, 30, 77, 0.3);
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(27, 94, 32, 0.6);
         }
         .login-container .footer-text {
             margin-top: 20px;
             font-size: 11px;
-            color: #64748b;
+            color: #5C7A69;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="brand-logo"><img src="logo.png" alt="Boston Tech India" onerror="this.onerror=null; this.parentElement.innerHTML='⚡';"></div>
+        <div class="brand-logo"><img src="logo.png" alt="Tekki X" onerror="this.onerror=null; this.parentElement.innerHTML='⚡';"></div>
         <h2>Organization Login</h2>
-        <div class="subtitle">CatalystScan Fleet Dashboard</div>
+        <div class="subtitle">Tekki X — CatalystScan Fleet Dashboard</div>
         <input type="text" id="org_name" placeholder="Organization Name (Username)">
         <input type="password" id="org_id" placeholder="Organization ID (Password)">
         <button onclick="attemptLogin()">🔐 Sign In</button>
-        <p id="error-msg" style="color:#ef4444; margin-top:12px; font-size:14px;"></p>
-        <div class="footer-text">BostonTechIndia · CatalystScan v2.1</div>
+        <p id="error-msg" style="color:#E53935; margin-top:12px; font-size:14px;"></p>
+        <div class="footer-text">Tekki X · CatalystScan v2.2</div>
     </div>
 
     <script>

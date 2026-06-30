@@ -1678,25 +1678,21 @@ def delete_user(user_id):
 
 
 def seed_admin_users():
-    """Seed super_admin users from environment variables on first run."""
-    admin_user = os.environ.get('ADMIN_USER', 'admin')
+    """Seed super_admin user from environment variables on first run."""
+    admin_user = os.environ.get('ADMIN_USER', 'tekkix')
     admin_pass = os.environ.get('ADMIN_PASS')
     if not admin_pass:
         import secrets
         admin_pass = secrets.token_urlsafe(16)
         logger.warning(f"  WARNING: ADMIN_PASS not set — generated random password: {admin_pass}")
-    admin_pass_2 = os.environ.get('ADMIN_PASS_2')
 
     existing = get_user_by_username(admin_user)
     if not existing:
         create_user(admin_user, admin_pass, 'Administrator', 'super_admin')
         logger.info(f"  Seeded super_admin user: {admin_user}")
+    else:
+        logger.info(f"  Admin user '{admin_user}' already exists — skipping seed.")
 
-    if admin_pass_2:
-        existing2 = get_user_by_username('bostontech')
-        if not existing2:
-            create_user('bostontech', admin_pass_2, 'Bostontech Admin', 'super_admin')
-            logger.info("  Seeded super_admin user: bostontech")
 
 
 # Startup logic -> Do not auto-initialize DB globally here to prevent import errors during module parsing

@@ -56,7 +56,7 @@ from slowapi.errors import RateLimitExceeded
 # APP INITIALIZATION
 # ══════════════════════════════════════════
 
-app = FastAPI(title="Bostontech CatalystScan Dashboard", version=VERSION)
+app = FastAPI(title="Tekki X CatalystScan Dashboard", version=VERSION)
 
 limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
@@ -118,64 +118,68 @@ async def downloads_page():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CatalystScan — Download Agent</title>
+    <title>Tekki X CatalystScan — Download Agent</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #EAF6FB;
-            color: #0B1E4D; min-height: 100vh;
+            background: #070D0A;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(27, 94, 32, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(249, 168, 37, 0.06) 0%, transparent 50%);
+            color: #f0f7f2; min-height: 100vh;
             display: flex; flex-direction: column; align-items: center;
         }
         .header { text-align: center; padding: 60px 20px 30px; }
         .header .logo {
             width: 80px; height: 80px;
-            background: linear-gradient(135deg, #0B1E4D, #00BFA6);
+            background: linear-gradient(135deg, #1B5E20, #0A2E0F);
             border-radius: 20px; display: flex; align-items: center; justify-content: center;
             font-size: 40px; margin: 0 auto 20px;
-            box-shadow: 0 8px 32px rgba(11, 30, 77, 0.3);
+            box-shadow: 0 8px 32px rgba(27, 94, 32, 0.4);
             overflow: hidden;
         }
         .header .logo img { width: 100%; height: 100%; object-fit: contain; }
-        .header h1 { font-size: 2rem; font-weight: 700; color: #0B1E4D; }
-        .header p { color: #334155; margin-top: 8px; font-size: 1.05rem; }
+        .header h1 { font-size: 2rem; font-weight: 700; color: #f0f7f2; }
+        .header p { color: #8FA99A; margin-top: 8px; font-size: 1.05rem; }
         .container { max-width: 800px; width: 100%; padding: 0 20px 60px; }
         .card {
-            background: #ffffff; border: 1px solid #d1e9f5;
+            background: rgba(12, 22, 16, 0.70); border: 1px solid rgba(139, 195, 155, 0.10);
             border-radius: 16px; padding: 24px; margin-bottom: 16px;
-            box-shadow: 0 10px 15px -3px rgba(11, 30, 77, 0.06);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             transition: border-color 0.3s, transform 0.2s;
         }
-        .card:hover { border-color: #00BFA6; transform: translateY(-2px); }
+        .card:hover { border-color: rgba(249, 168, 37, 0.3); transform: translateY(-2px); }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .card-header h3 { font-size: 1.1rem; color: #0B1E4D; }
-        .badge { background: linear-gradient(135deg, #0B1E4D, #00BFA6); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: white; }
-        .card-meta { display: flex; gap: 20px; color: #64748b; font-size: 0.85rem; margin-bottom: 16px; }
+        .card-header h3 { font-size: 1.1rem; color: #f0f7f2; }
+        .badge { background: linear-gradient(135deg, #1B5E20, #F9A825); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: white; }
+        .card-meta { display: flex; gap: 20px; color: #5C7A69; font-size: 0.85rem; margin-bottom: 16px; }
         .btn-download {
             display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px;
-            background: linear-gradient(135deg, #0B1E4D, #00BFA6); color: #fff; border: none;
+            background: linear-gradient(135deg, #1B5E20, #0A2E0F); color: #fff; border: none;
             border-radius: 10px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
-            text-decoration: none; transition: opacity 0.2s, transform 0.2s;
+            text-decoration: none; transition: all 0.2s;
         }
-        .btn-download:hover { opacity: 0.9; transform: scale(1.02); }
-        .empty-state { text-align: center; padding: 60px 20px; color: #64748b; }
+        .btn-download:hover { background: linear-gradient(135deg, #2E7D32, #1B5E20); transform: scale(1.02); }
+        .empty-state { text-align: center; padding: 60px 20px; color: #5C7A69; }
         .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
         .instructions {
-            background: rgba(0, 191, 166, 0.1); border: 1px solid rgba(0, 191, 166, 0.2);
+            background: rgba(27, 94, 32, 0.10); border: 1px solid rgba(27, 94, 32, 0.20);
             border-radius: 12px; padding: 20px; margin-top: 30px;
-            color: #334155;
+            color: #8FA99A;
         }
-        .instructions h3 { color: #0B1E4D; margin-bottom: 12px; }
-        .instructions ol { padding-left: 20px; color: #334155; line-height: 1.9; }
-        .instructions code { background: rgba(11, 30, 77, 0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; color: #0B1E4D; }
-        #loading { text-align: center; padding: 40px; color: #64748b; }
-        .instructions ul { text-align: left; margin: 12px 0 0 20px; font-size: 0.95rem; color: #334155; }
+        .instructions h3 { color: #f0f7f2; margin-bottom: 12px; }
+        .instructions ol { padding-left: 20px; color: #8FA99A; line-height: 1.9; }
+        .instructions code { background: rgba(249, 168, 37, 0.10); padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; color: #F9A825; }
+        #loading { text-align: center; padding: 40px; color: #5C7A69; }
+        .instructions ul { text-align: left; margin: 12px 0 0 20px; font-size: 0.95rem; color: #8FA99A; }
+        .footer { text-align: center; padding: 20px; color: #5C7A69; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo"><img src="/logo.png" alt="Bostontech CatalystScan" onerror="this.onerror=null; this.textContent='⚡';"></div>
+        <div class="logo"><img src="/logo.png" alt="Tekki X CatalystScan" onerror="this.onerror=null; this.textContent='⚡';"></div>
         <h1>CatalystScan Agent</h1>
         <p>Download the latest scanning agent for your organization</p>
     </div>
@@ -192,7 +196,7 @@ async def downloads_page():
             </ol>
         </div>
     </div>
-    <div class="footer">Bostontech India Pvt Ltd · CatalystScan v""" + VERSION + """</div>
+    <div class="footer">Tekki X · CatalystScan v""" + VERSION + """</div>
     <script>
         async function loadBuilds() {
             try {
@@ -248,7 +252,7 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    logger.info("Starting Bostontech CatalystScan Dashboard Server...")
+    logger.info("Starting Tekki X CatalystScan Dashboard Server...")
     logger.info(f"Dashboard: http://localhost:9000/dashboard/")
     logger.info(f"Downloads: http://localhost:9000/downloads")
     logger.info(f"API Docs:  http://localhost:9000/docs")

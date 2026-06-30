@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
-  # ── MySQL Database ──
+  # ── MySQL Database (Fresh — uses separate volume from old catalystscan) ──
   mysql:
     image: mysql:8.0
-    container_name: catalystscan-mysql
+    container_name: tekkix-mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -12,7 +12,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - tekkix_mysql_data:/var/lib/mysql
     ports:
       - "127.0.0.1:3306:3306"
     healthcheck:
@@ -22,14 +22,14 @@ services:
       retries: 10
       start_period: 30s
     networks:
-      - catalystscan-net
+      - tekkix-net
 
-  # ── CatalystScan App ──
+  # ── TekkiX CatalystScan App ──
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: catalystscan-app
+    container_name: tekkix-app
     restart: unless-stopped
     env_file: .env
     environment:
@@ -45,11 +45,11 @@ services:
       mysql:
         condition: service_healthy
     networks:
-      - catalystscan-net
+      - tekkix-net
 
 volumes:
-  mysql_data:
+  tekkix_mysql_data:
 
 networks:
-  catalystscan-net:
+  tekkix-net:
     driver: bridge
