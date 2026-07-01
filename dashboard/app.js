@@ -192,7 +192,7 @@ async function doLogin() {
         errorEl.classList.remove('shake');
         void errorEl.offsetWidth;
         errorEl.classList.add('shake');
-    }
+    }   
 
 }
 
