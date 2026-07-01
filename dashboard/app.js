@@ -134,10 +134,15 @@ async function doLogin() {
         return;
     }
 
+    // Disable button to prevent double-submit
+    const loginBtn = document.querySelector('.login-btn');
+    if (loginBtn) { loginBtn.disabled = true; loginBtn.innerText = 'Signing in...'; }
+
     try {
         const rememberMe = document.getElementById('login-remember');
         const rememberMeVal = rememberMe ? rememberMe.checked : false;
 
+        // ── Step 1: Authenticate — call /api/auth/login ──
         const res = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -145,38 +150,58 @@ async function doLogin() {
         });
         const data = await res.json();
 
-        if (data.success) {
-            const authData = JSON.stringify({
-                token: data.token,
-                username: data.username,
-                role: data.role,
-                partner_id: data.partner_id || null,
-                org_id: data.org_id || null,
-                login_time: new Date().toISOString(),
-            });
-            sessionStorage.setItem('catalyst_auth', authData);
-
-            // "Remember Me" check
-            if (rememberMeVal) {
-                localStorage.setItem('catalyst_auth', authData);
-            }
-
-            showApp(data.username, data.role);
-            loadOverview();  // Load dashboard data immediately after login
-        } else {
-            errorEl.innerText = data.message || 'Invalid username or password. Please try again.';
+        if (!data.success) {
+            // Login failed — show error, stay on login screen
+            errorEl.innerText = data.message || data.detail || 'Invalid username or password. Please try again.';
             errorEl.style.display = 'block';
             errorEl.classList.remove('shake');
-            void errorEl.offsetWidth; // Force reflow to restart animation
+            void errorEl.offsetWidth;
             errorEl.classList.add('shake');
             document.getElementById('login-pass').value = '';
+            return;
         }
+
+        // ── Step 2: Store the token from /api/auth/login ──
+        const authData = JSON.stringify({
+            token: data.token,
+            username: data.username,
+            role: data.role,
+            partner_id: data.partner_id || null,
+            org_id: data.org_id || null,
+            login_time: new Date().toISOString(),
+        });
+        sessionStorage.setItem('catalyst_auth', authData);
+        if (rememberMeVal) {
+            localStorage.setItem('catalyst_auth', authData);
+        }
+
+        // ── Step 3: Verify token with /api/auth/session (same as page-reload flow) ──
+        const sessionRes = await fetch('/api/auth/session', {
+            headers: { 'Authorization': 'Bearer ' + data.token }
+        });
+
+        if (!sessionRes.ok) {
+            // Token rejected right after login — clear and show error
+            sessionStorage.removeItem('catalyst_auth');
+            localStorage.removeItem('catalyst_auth');
+            errorEl.innerText = 'Authentication failed. Please try again.';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        // ── Step 4: Token verified — show the dashboard ──
+        showApp(data.username, data.role);
+        loadOverview();
+
     } catch (e) {
         errorEl.innerText = 'Unable to connect to server. Please check your network and try again.';
         errorEl.style.display = 'block';
         errorEl.classList.remove('shake');
         void errorEl.offsetWidth;
         errorEl.classList.add('shake');
+    } finally {
+        // Re-enable login button
+        if (loginBtn) { loginBtn.disabled = false; loginBtn.innerHTML = '<iconify-icon icon="lucide:lock"></iconify-icon> Sign In'; }
     }
 }
 
