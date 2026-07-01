@@ -275,43 +275,61 @@ function getOrgScope() {
 }
 
 function checkSession() {
-    const auth = sessionStorage.getItem('catalyst_auth');
-    if (auth) {
-        try {
-            const data = JSON.parse(auth);
-            if (!data.token) throw new Error('No token');
-            showApp(data.username, data.role);
-            // Validate token with a lightweight server call
-            validateSession(data.token);
-            return true;
-        } catch (e) {
+    try {
+        const raw = sessionStorage.getItem('catalyst_auth');
+        if (!raw) return false;
+
+        const data = JSON.parse(raw);
+        if (!data || !data.token || !data.username) return false;
+
+        // Purge leftover dev/dummy tokens — they will always 401
+        if (data.token === 'dummy_preview_token') {
             sessionStorage.removeItem('catalyst_auth');
+            localStorage.removeItem('catalyst_auth');
+            return false;
         }
+
+        // Keep login screen visible — validateSession shows app only on success
+        validateSession(data.token, data.username, data.role);
+        return true;
+    } catch (e) {
+        console.error('checkSession error:', e);
+        sessionStorage.removeItem('catalyst_auth');
+        return false;
     }
-    return false;
 }
 
-async function validateSession(token) {
+async function validateSession(token, username, role) {
     try {
-        const res = await fetch(API + '/api/dashboard/stats', {
+        // Use the dedicated /api/auth/session endpoint — lightweight, correct
+        const res = await fetch(API + '/api/auth/session', {
             headers: { 'Authorization': 'Bearer ' + token }
         });
         if (res.status === 401) {
             console.warn('Session token expired or invalid, clearing.');
             sessionStorage.removeItem('catalyst_auth');
             localStorage.removeItem('catalyst_auth');
-            doLogout();
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('app-layout').style.display = 'none';
             return;
         }
-        // Token valid  -  load the overview
+        // Token confirmed valid — now show the app and load data
+        showApp(username, role);
         loadOverview();
     } catch (e) {
-        console.error('Session validation failed:', e);
+        console.error('Session validation failed (network error):', e);
+        // Fail safe — stay on login screen
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('app-layout').style.display = 'none';
     }
 }
 
-// Auto-restore session
-checkSession();
+// Auto-restore session on page load
+// Login screen stays visible until validateSession resolves successfully
+if (!checkSession()) {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app-layout').style.display = 'none';
+}
 
 // Fetch App Version
 fetch('/api/health')
@@ -450,15 +468,26 @@ function show404View(viewName) {
     document.getElementById('page-title').textContent = 'Page Not Found';
 }
 
-// â”€â”€ API Helpers â”€â”€
-async function fetchJSON(url, options = {}) {
-    const auth = sessionStorage.getItem('catalyst_auth');
-    if (!auth) {
-        console.warn('fetchJSON: No session token, skipping', url);
+// ── API Helpers ──
+function getAuthToken() {
+    try {
+        const raw = sessionStorage.getItem('catalyst_auth');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && parsed.token ? parsed.token : null;
+    } catch (e) {
+        console.error('getAuthToken: Failed to parse session', e);
         return null;
     }
-    let headers = {};
-    try { headers['Authorization'] = 'Bearer ' + JSON.parse(auth).token; } catch (e) { }
+}
+
+async function fetchJSON(url, options = {}) {
+    const token = getAuthToken();
+    if (!token) {
+        console.warn('fetchJSON: No valid token, logging out.', url);
+        doLogout();
+        return null;
+    }
     // Auto-inject org_id scope for org_user role
     let scopedUrl = url;
     const orgScope = getOrgScope();
@@ -467,9 +496,13 @@ async function fetchJSON(url, options = {}) {
         scopedUrl = url + sep + 'org_id=' + encodeURIComponent(orgScope);
     }
     try {
-        const res = await fetch(API + scopedUrl, { headers });
+        const res = await fetch(API + scopedUrl, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
         if (res.status === 401) {
             console.warn('fetchJSON: 401 received, logging out');
+            sessionStorage.removeItem('catalyst_auth');
+            localStorage.removeItem('catalyst_auth');
             doLogout();
             return null;
         }
@@ -485,20 +518,24 @@ async function fetchJSON(url, options = {}) {
 }
 
 async function postJSON(url, data, method) {
-    const auth = sessionStorage.getItem('catalyst_auth');
-    if (!auth) {
-        console.warn('postJSON: No session token, skipping', url);
+    const token = getAuthToken();
+    if (!token) {
+        console.warn('postJSON: No valid token, logging out.', url);
+        doLogout();
         return null;
     }
-    let headers = { 'Content-Type': 'application/json' };
-    try { headers['Authorization'] = 'Bearer ' + JSON.parse(auth).token; } catch (e) { }
     try {
         const res = await fetch(API + url, {
             method: method || 'POST',
-            headers: headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
             body: JSON.stringify(data),
         });
         if (res.status === 401) {
+            sessionStorage.removeItem('catalyst_auth');
+            localStorage.removeItem('catalyst_auth');
             doLogout();
             return null;
         }
