@@ -124,24 +124,9 @@ const API = '';  // Same origin
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 async function doLogin() {
-    // const user = document.getElementById('login-user').value.trim() || "TekkiX Admin";
-    // const errorEl = document.getElementById('login-error');
     const user = document.getElementById('login-user').value.trim();
     const pass = document.getElementById('login-pass').value;
-
-
-    // const authData = JSON.stringify({
-    //     token: "dummy_preview_token",
-    //     username: user,
-    //     role: "super_admin",
-    //     partner_id: null,
-    //     org_id: null,
-    //     login_time: new Date().toISOString(),
-    // });
-    // sessionStorage.setItem('catalyst_auth', authData);
-
-    // showApp(user, 'super_admin');
-    // loadOverview();  // Load dashboard data immediately after login
+    const errorEl = document.getElementById('login-error');
 
     if (!user || !pass) {
         errorEl.innerText = 'Please enter username and password';
@@ -291,23 +276,23 @@ function getOrgScope() {
 }
 
 function checkSession() {
-    // TEMPORARY BYPASS FOR UI PREVIEW
-    const authData = JSON.stringify({
-        token: "dummy_preview_token",
-        username: "TekkiX Admin",
-        role: "super_admin",
-        partner_id: null,
-        org_id: null,
-        login_time: new Date().toISOString(),
-    });
-    sessionStorage.setItem('catalyst_auth', authData);
-    showApp('TekkiX Admin', 'super_admin');
-    loadOverview();
-    return true;
+    try {
+        const raw = sessionStorage.getItem('catalyst_auth');
+        if (!raw) return false;
+        const auth = JSON.parse(raw);
+        if (!auth || !auth.token || !auth.username) return false;
+        // Show the app immediately with stored credentials while we validate
+        showApp(auth.username, auth.role);
+        // Validate the token against the server in the background
+        validateSession(auth.token, auth.username, auth.role);
+        return true;
+    } catch (e) {
+        console.error('checkSession error:', e);
+        return false;
+    }
 }
 
-async function validateSession(token) {
-    // TEMPORARY BYPASS
+async function validateSession(token, username, role) {
     try {
         const res = await fetch(API + '/api/dashboard/stats', {
             headers: { 'Authorization': 'Bearer ' + token }
@@ -319,16 +304,21 @@ async function validateSession(token) {
             doLogout();
             return;
         }
-        // Token valid  -  load the overview
+        // Token is valid — load the overview
         loadOverview();
     } catch (e) {
         console.error('Session validation failed:', e);
+        // On network error, still try to load — server may recover
+        loadOverview();
     }
-
 }
 
-// Auto-restore session
-checkSession();
+// Auto-restore session on page load
+if (!checkSession()) {
+    // No stored session — show the login screen
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app-layout').style.display = 'none';
+}
 
 // Fetch App Version
 fetch('/api/health')
