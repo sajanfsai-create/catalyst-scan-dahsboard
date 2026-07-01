@@ -175,21 +175,7 @@ async function doLogin() {
             localStorage.setItem('catalyst_auth', authData);
         }
 
-        // ── Step 3: Verify token with /api/auth/session (same as page-reload flow) ──
-        const sessionRes = await fetch('/api/auth/session', {
-            headers: { 'Authorization': 'Bearer ' + data.token }
-        });
-
-        if (!sessionRes.ok) {
-            // Token rejected right after login — clear and show error
-            sessionStorage.removeItem('catalyst_auth');
-            localStorage.removeItem('catalyst_auth');
-            errorEl.innerText = 'Authentication failed. Please try again.';
-            errorEl.style.display = 'block';
-            return;
-        }
-
-        // ── Step 4: Token verified — show the dashboard ──
+        // ── Step 3: Show the dashboard and load stats ──
         showApp(data.username, data.role);
         loadOverview();
 
@@ -326,8 +312,8 @@ function checkSession() {
 
 async function validateSession(token, username, role) {
     try {
-        // Use the dedicated /api/auth/session endpoint — lightweight, correct
-        const res = await fetch(API + '/api/auth/session', {
+        // Use the stats endpoint to validate token (also verifies org scope etc.)
+        const res = await fetch(API + '/api/dashboard/stats', {
             headers: { 'Authorization': 'Bearer ' + token }
         });
         if (res.status === 401) {

@@ -1,0 +1,39 @@
+# ── Runtime logs — NEVER commit, always conflict ──
+logs/
+*.log
+
+# ── Reports & uploads (runtime generated) ──
+reports/
+uploads/
+generated_builds/
+
+# ── Python ──
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.Python
+
+# ── Virtual environments ──
+venv/
+.venv/
+env/
+
+# ── Environment secrets ──
+.env
+.env.*
+!.env.example
+
+# ── IDE / OS ──
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ── Node ──
+dashboard/node_modules/
+dashboard/.vite/
