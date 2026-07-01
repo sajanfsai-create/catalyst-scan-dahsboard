@@ -166,3 +166,8 @@ ConnectionResetError: [WinError 10054] An existing connection was forcibly close
 [2026-06-30 16:38:32,312] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
 [2026-06-30 16:38:32,313] INFO [__main__:257] Downloads: http://localhost:9000/downloads
 [2026-06-30 16:38:32,315] INFO [__main__:258] API Docs:  http://localhost:9000/docs
+[2026-06-30 18:19:45,582] INFO [__main__:48] Structured logging initialized.
+[2026-06-30 18:19:47,150] INFO [__main__:255] Starting Tekki X CatalystScan Dashboard Server...
+[2026-06-30 18:19:47,150] INFO [__main__:256] Dashboard: http://localhost:9000/dashboard/
+[2026-06-30 18:19:47,150] INFO [__main__:257] Downloads: http://localhost:9000/downloads
+[2026-06-30 18:19:47,158] INFO [__main__:258] API Docs:  http://localhost:9000/docs
