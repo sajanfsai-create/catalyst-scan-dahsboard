@@ -192,7 +192,7 @@ async function doLogin() {
         errorEl.classList.remove('shake');
         void errorEl.offsetWidth;
         errorEl.classList.add('shake');
-    }   
+    }
 
 }
 
@@ -308,7 +308,23 @@ function checkSession() {
 
 async function validateSession(token) {
     // TEMPORARY BYPASS
-    loadOverview();
+    try {
+        const res = await fetch(API + '/api/dashboard/stats', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.status === 401) {
+            console.warn('Session token expired or invalid, clearing.');
+            sessionStorage.removeItem('catalyst_auth');
+            localStorage.removeItem('catalyst_auth');
+            doLogout();
+            return;
+        }
+        // Token valid  -  load the overview
+        loadOverview();
+    } catch (e) {
+        console.error('Session validation failed:', e);
+    }
+
 }
 
 // Auto-restore session
@@ -482,88 +498,6 @@ async function fetchJSON(url, options = {}) {
     } catch (e) {
         console.error('API Error:', url, e);
 
-        // --- START MOCK DATA FALLBACK FOR OFFLINE PREVIEW ---
-        const lowerUrl = url.toLowerCase();
-        if (lowerUrl.includes('/api/dashboard/stats')) {
-            return {
-                "total_devices": 18,
-                "online": 12,
-                "offline": 6,
-                "active_alerts": 2
-            };
-        }
-        if (lowerUrl.includes('/api/dashboard/devices')) {
-            return {
-                "devices": [
-                    { "fingerprint": "dev_fp_1", "hostname": "BMSIT-LAB1-PC01", "org_id": "BMSIT", "org_name": "BMSIT", "online": true, "last_seen": new Date().toISOString(), "total_scans": 10, "scans_used": 4, "scans_remaining": 6 },
-                    { "fingerprint": "dev_fp_2", "hostname": "BMSIT-LAB1-PC02", "org_id": "BMSIT", "org_name": "BMSIT", "online": true, "last_seen": new Date().toISOString(), "total_scans": 10, "scans_used": 3, "scans_remaining": 7 },
-                    { "fingerprint": "dev_fp_3", "hostname": "BOS-OFFICE-LPT09", "org_id": "Boston_Tech_India", "org_name": "Boston Tech India", "online": true, "last_seen": new Date().toISOString(), "total_scans": 5, "scans_used": 1, "scans_remaining": 4 },
-                    { "fingerprint": "dev_fp_4", "hostname": "GEN-MOT-WORKSTN", "org_id": "Gen_Mot_Coils", "org_name": "Gen Mot Coils", "online": false, "last_seen": new Date(Date.now() - 3600000 * 2).toISOString(), "total_scans": 20, "scans_used": 15, "scans_remaining": 5 },
-                    { "fingerprint": "dev_fp_5", "hostname": "BMSIT-LAB2-PC14", "org_id": "BMSIT", "org_name": "BMSIT", "online": false, "last_seen": new Date(Date.now() - 3600000 * 24).toISOString(), "total_scans": 10, "scans_used": 10, "scans_remaining": 0 }
-                ]
-            };
-        }
-        if (lowerUrl.includes('/api/dashboard/alerts')) {
-            return {
-                "total": 2,
-                "alerts": [
-                    {
-                        "id": 1,
-                        "org_name": "BMSIT",
-                        "timestamp": new Date(Date.now() - 3600000).toISOString(),
-                        "fingerprint": "dev_fp_5",
-                        "resolved": 0,
-                        "tamper_data": {
-                            "changes": [
-                                { "component": "RAM", "type": "Module Swap / Removal", "severity": "HIGH", "baseline": "16 GB DDR4", "current": "8 GB DDR4" }
-                            ]
-                        }
-                    },
-                    {
-                        "id": 2,
-                        "org_name": "Boston Tech India",
-                        "timestamp": new Date(Date.now() - 3600000 * 4).toISOString(),
-                        "fingerprint": "dev_fp_3",
-                        "resolved": 0,
-                        "tamper_data": {
-                            "changes": [
-                                { "component": "Storage", "type": "Disk Replacement", "severity": "MEDIUM", "baseline": "Crucial 500GB SSD", "current": "Kingston 240GB SSD" }
-                            ]
-                        }
-                    }
-                ]
-            };
-        }
-        if (lowerUrl.includes('/health')) {
-            return { "overall_grade": "A", "overall_score": 92 };
-        }
-        if (lowerUrl.includes('/orgs')) {
-            return {
-                "organizations": [
-                    { "id": "BMSIT", "name": "BMSIT", "contact_email": "admin@bmsit.edu", "contact_phone": "+91-9876543210", "address": "Bengaluru, India", "partner_id": 1, "org_category": "Education Institution" },
-                    { "id": "Boston_Tech_India", "name": "Boston Tech India", "contact_email": "info@bostontechindia.com", "contact_phone": "+91-8012345678", "address": "Chennai, India", "partner_id": null, "org_category": "Corporate" },
-                    { "id": "Gen_Mot_Coils", "name": "Gen Mot Coils", "contact_email": "procurement@genmot.com", "contact_phone": "+91-7012345678", "address": "Pune, India", "partner_id": 2, "org_category": "Corporate" }
-                ]
-            };
-        }
-        if (lowerUrl.includes('/partners')) {
-            return [
-                { "id": 1, "name": "Computech Services", "contact_email": "partner@computech.in", "contact_phone": "+91-9988776655", "credits": 500 },
-                { "id": 2, "name": "Apex System Integrators", "contact_email": "apex@apexsys.com", "contact_phone": "+91-9988112233", "credits": 250 }
-            ];
-        }
-        if (lowerUrl.includes('/build-exe/list')) {
-            return {
-                "builds": [
-                    { "filename": "CatalystScan_BMSIT_v1_20260609_043452.zip", "size_mb": 31.9, "created": new Date(Date.now() - 3600000 * 24 * 10).toISOString() },
-                    { "filename": "CatalystScan_Boston_Tech_India_v15_20260621_070928.zip", "size_mb": 31.9, "created": new Date(Date.now() - 3600000 * 24 * 5).toISOString() }
-                ]
-            };
-        }
-        if (lowerUrl.includes('/build-exe/status')) {
-            return { "exists": true, "size_mb": 43.9 };
-        }
-        // --- END MOCK DATA FALLBACK ---
 
         return null;
     }
