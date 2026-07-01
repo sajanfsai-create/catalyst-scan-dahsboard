@@ -279,13 +279,21 @@ function checkSession() {
     try {
         const raw = sessionStorage.getItem('catalyst_auth');
         if (!raw) return false;
+
         const auth = JSON.parse(raw);
         if (!auth || !auth.token || !auth.username) return false;
-        // Show the app immediately with stored credentials while we validate
-        showApp(auth.username, auth.role);
-        // Validate the token against the server in the background
+
+        // Purge leftover dev/dummy tokens from old bypass — they will always 401
+        if (auth.token === 'dummy_preview_token') {
+            sessionStorage.removeItem('catalyst_auth');
+            localStorage.removeItem('catalyst_auth');
+            return false;
+        }
+
+        // Keep login screen visible until server confirms the token
+        // validateSession will show the app only on success
         validateSession(auth.token, auth.username, auth.role);
-        return true;
+        return true; // Tells caller "we are trying a session restore"
     } catch (e) {
         console.error('checkSession error:', e);
         return false;
@@ -301,21 +309,25 @@ async function validateSession(token, username, role) {
             console.warn('Session token expired or invalid, clearing.');
             sessionStorage.removeItem('catalyst_auth');
             localStorage.removeItem('catalyst_auth');
-            doLogout();
+            // Stay on / revert to login screen
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('app-layout').style.display = 'none';
             return;
         }
-        // Token is valid — load the overview
+        // Token is confirmed valid — now show the app
+        showApp(username, role);
         loadOverview();
     } catch (e) {
-        console.error('Session validation failed:', e);
-        // On network error, still try to load — server may recover
-        loadOverview();
+        console.error('Session validation failed (network error):', e);
+        // On network error: fail safe — show login rather than broken dashboard
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('app-layout').style.display = 'none';
     }
 }
 
 // Auto-restore session on page load
+// Both branches keep login-screen visible until validateSession resolves
 if (!checkSession()) {
-    // No stored session — show the login screen
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('app-layout').style.display = 'none';
 }
