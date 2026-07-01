@@ -24,7 +24,7 @@ function toggleDarkMode() {
     html.setAttribute('data-theme', isDark ? 'light' : 'dark');
     localStorage.setItem('catalyst_theme', isDark ? 'light' : 'dark');
     const btn = document.getElementById('theme-toggle-btn');
-    if (btn) btn.textContent = isDark ? '<iconify-icon icon="lucide:moon"></iconify-icon>' : '<iconify-icon icon="lucide:sun"></iconify-icon>';
+    if (btn) btn.textContent = isDark ? '🌙' : '☀️';
 }
 
 // Restore theme on load
@@ -34,7 +34,7 @@ function toggleDarkMode() {
         document.documentElement.setAttribute('data-theme', 'dark');
         setTimeout(function () {
             var btn = document.getElementById('theme-toggle-btn');
-            if (btn) btn.textContent = '<iconify-icon icon="lucide:sun"></iconify-icon>';
+            if (btn) btn.textContent = '☀️';
         }, 0);
     }
 })();
@@ -55,7 +55,7 @@ function showToast(message, type = 'success') {
     }
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    const icon = type === 'success' ? '<iconify-icon icon="lucide:check-circle"></iconify-icon>' : type === 'error' ? '<iconify-icon icon="lucide:x-circle"></iconify-icon>' : '<iconify-icon icon="lucide:info"></iconify-icon>';
+    const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
     toast.innerHTML = `<span>${icon}</span><span>${escapeHTML(message)}</span>`;
     container.appendChild(toast);
 
@@ -178,7 +178,6 @@ async function doLogin() {
         void errorEl.offsetWidth;
         errorEl.classList.add('shake');
     }
-
 }
 
 function doLogout() {
@@ -195,12 +194,12 @@ function showForgotPassword() {
     const errorEl = document.getElementById('login-error');
     errorEl.innerHTML = `
         <div style="color:var(--text-primary);background:var(--bg-hover);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:left;font-size:13px;">
-            <strong style="font-size:14px;"><iconify-icon icon="lucide:key"></iconify-icon> Password Reset</strong><br><br>
+            <strong style="font-size:14px;">🔑 Password Reset</strong><br><br>
             Please contact your system administrator to reset your password.<br><br>
             <strong>Admin Contact:</strong><br>
-            <iconify-icon icon="lucide:mail"></iconify-icon> <a href="mailto:support@bostontechindia.com" style="color:var(--primary);">support@bostontechindia.com</a><br>
-            <iconify-icon icon="lucide:phone"></iconify-icon> +91-XXXX-XXXXXX<br><br>
-            <small style="color:var(--text-muted);">Admins can reset passwords from Dashboard → Users → <iconify-icon icon="lucide:key"></iconify-icon> Reset Password</small>
+            📧 <a href="mailto:support@bostontechindia.com" style="color:var(--primary);">support@bostontechindia.com</a><br>
+            📞 +91-XXXX-XXXXXX<br><br>
+            <small style="color:var(--text-muted);">Admins can reset passwords from Dashboard → Users → 🔑 Reset Password</small>
         </div>
     `;
     errorEl.style.display = 'block';
@@ -276,31 +275,23 @@ function getOrgScope() {
 }
 
 function checkSession() {
-    try {
-        const raw = sessionStorage.getItem('catalyst_auth');
-        if (!raw) return false;
-
-        const auth = JSON.parse(raw);
-        if (!auth || !auth.token || !auth.username) return false;
-
-        // Purge leftover dev/dummy tokens from old bypass — they will always 401
-        if (auth.token === 'dummy_preview_token') {
+    const auth = sessionStorage.getItem('catalyst_auth');
+    if (auth) {
+        try {
+            const data = JSON.parse(auth);
+            if (!data.token) throw new Error('No token');
+            showApp(data.username, data.role);
+            // Validate token with a lightweight server call
+            validateSession(data.token);
+            return true;
+        } catch (e) {
             sessionStorage.removeItem('catalyst_auth');
-            localStorage.removeItem('catalyst_auth');
-            return false;
         }
-
-        // Keep login screen visible until server confirms the token
-        // validateSession will show the app only on success
-        validateSession(auth.token, auth.username, auth.role);
-        return true; // Tells caller "we are trying a session restore"
-    } catch (e) {
-        console.error('checkSession error:', e);
-        return false;
     }
+    return false;
 }
 
-async function validateSession(token, username, role) {
+async function validateSession(token) {
     try {
         const res = await fetch(API + '/api/dashboard/stats', {
             headers: { 'Authorization': 'Bearer ' + token }
@@ -309,28 +300,18 @@ async function validateSession(token, username, role) {
             console.warn('Session token expired or invalid, clearing.');
             sessionStorage.removeItem('catalyst_auth');
             localStorage.removeItem('catalyst_auth');
-            // Stay on / revert to login screen
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('app-layout').style.display = 'none';
+            doLogout();
             return;
         }
-        // Token is confirmed valid — now show the app
-        showApp(username, role);
+        // Token valid  -  load the overview
         loadOverview();
     } catch (e) {
-        console.error('Session validation failed (network error):', e);
-        // On network error: fail safe — show login rather than broken dashboard
-        document.getElementById('login-screen').style.display = 'flex';
-        document.getElementById('app-layout').style.display = 'none';
+        console.error('Session validation failed:', e);
     }
 }
 
-// Auto-restore session on page load
-// Both branches keep login-screen visible until validateSession resolves
-if (!checkSession()) {
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('app-layout').style.display = 'none';
-}
+// Auto-restore session
+checkSession();
 
 // Fetch App Version
 fetch('/api/health')
@@ -453,14 +434,14 @@ function show404View(viewName) {
     const prettyName = viewName.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     notFoundView.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:40px;">
-            <div style="font-size:80px;margin-bottom:16px;opacity:0.3;"><iconify-icon icon="lucide:construction"></iconify-icon></div>
+            <div style="font-size:80px;margin-bottom:16px;opacity:0.3;">🚧</div>
             <h2 style="font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Feature Coming Soon</h2>
             <p style="font-size:16px;color:var(--text-muted);max-width:500px;margin-bottom:24px;">
                 <strong>${escapeHTML(prettyName)}</strong> is currently under development and will be available in a future update.
             </p>
             <div style="display:flex;gap:12px;">
-                <button class="btn btn-primary" onclick="switchView('overview')"><iconify-icon icon="lucide:arrow-left"></iconify-icon> Back to Overview</button>
-                <button class="btn btn-ghost" onclick="window.open('mailto:support@bostontechindia.com?subject=Feature Request: ${encodeURIComponent(prettyName)}','_blank')"><iconify-icon icon="lucide:mail"></iconify-icon> Request Feature</button>
+                <button class="btn btn-primary" onclick="switchView('overview')">← Back to Overview</button>
+                <button class="btn btn-ghost" onclick="window.open('mailto:support@bostontechindia.com?subject=Feature Request: ${encodeURIComponent(prettyName)}','_blank')">📧 Request Feature</button>
             </div>
             <p style="margin-top:32px;font-size:12px;color:var(--text-muted);opacity:0.6;">Error 404 — View not found</p>
         </div>
@@ -469,7 +450,7 @@ function show404View(viewName) {
     document.getElementById('page-title').textContent = 'Page Not Found';
 }
 
-// ── API Helpers ──
+// â”€â”€ API Helpers â”€â”€
 async function fetchJSON(url, options = {}) {
     const auth = sessionStorage.getItem('catalyst_auth');
     if (!auth) {
@@ -499,8 +480,6 @@ async function fetchJSON(url, options = {}) {
         return await res.json();
     } catch (e) {
         console.error('API Error:', url, e);
-
-
         return null;
     }
 }
@@ -604,7 +583,7 @@ async function loadOverview(force = false) {
                 </tr>
             `).join('');
         } else {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:48px 24px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;"><iconify-icon icon="lucide:laptop"></iconify-icon></div><div style="font-size:14px;font-weight:500;">No devices registered yet</div><div style="font-size:12px;margin-top:4px;">Deploy CatalystScan agents to see devices here.</div></td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:48px 24px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;">💻</div><div style="font-size:14px;font-weight:500;">No devices registered yet</div><div style="font-size:12px;margin-top:4px;">Deploy CatalystScan agents to see devices here.</div></td></tr>`;
         }
 
         loadAlertsPreview();
@@ -659,15 +638,15 @@ async function loadDevices() {
                 <td>${d.scans_used}</td>
                 <td class="${d.scans_remaining <= 0 ? 'text-red' : 'text-green'}">${d.scans_remaining}</td>
                 <td style="white-space:nowrap;">
-                    <button class="btn btn-primary btn-sm btn-icon" onclick="downloadReport('${escapeHTML(d.fingerprint)}')" title="Download Report"><iconify-icon icon="lucide:file-text"></iconify-icon> Report</button>
-                    <button class="btn btn-ghost btn-sm btn-icon" onclick="viewDevice('${escapeHTML(d.fingerprint)}')" title="View Details"><iconify-icon icon="lucide:search"></iconify-icon> Details</button>
-                    <button class="btn btn-success btn-sm btn-icon" onclick="quickAddScans('${escapeHTML(d.fingerprint)}')" title="Add 2 scan credits"><iconify-icon icon="lucide:plus"></iconify-icon> Scans</button>
+                    <button class="btn btn-primary btn-sm btn-icon" onclick="downloadReport('${escapeHTML(d.fingerprint)}')" title="Download Report">📄 Report</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" onclick="viewDevice('${escapeHTML(d.fingerprint)}')" title="View Details">🔍 Details</button>
+                    <button class="btn btn-success btn-sm btn-icon" onclick="quickAddScans('${escapeHTML(d.fingerprint)}')" title="Add 2 scan credits">➕ Scans</button>
                 </td>
             </tr>`;
         }));
         tbody.innerHTML = rows.join('');
     } else {
-        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:48px 24px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;"><iconify-icon icon="lucide:laptop"></iconify-icon></div><div style="font-size:14px;font-weight:500;">No devices registered yet</div><div style="font-size:12px;margin-top:4px;">Deploy CatalystScan agents to see devices here.</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:48px 24px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;">💻</div><div style="font-size:14px;font-weight:500;">No devices registered yet</div><div style="font-size:12px;margin-top:4px;">Deploy CatalystScan agents to see devices here.</div></td></tr>`;
     }
 }
 
@@ -710,7 +689,7 @@ async function loadAlertsPreview() {
         }
         container.innerHTML = alertData.alerts.slice(0, 3).map(a => renderAlert(a)).join('');
     } else {
-        container.innerHTML = `<div style="text-align:center;padding:32px 24px;color:var(--text-muted);"><div style="font-size:28px;margin-bottom:8px;"><iconify-icon icon="lucide:shield"></iconify-icon></div><div style="font-size:13px;font-weight:500;">No security alerts detected</div><div style="font-size:12px;margin-top:4px;">All devices are operating normally.</div></div>`;
+        container.innerHTML = `<div style="text-align:center;padding:32px 24px;color:var(--text-muted);"><div style="font-size:28px;margin-bottom:8px;">🛡️</div><div style="font-size:13px;font-weight:500;">No security alerts detected</div><div style="font-size:12px;margin-top:4px;">All devices are operating normally.</div></div>`;
     }
 }
 
@@ -1099,7 +1078,7 @@ async function checkExeStatus() {
     if (data && data.exists) {
         statusDiv.innerHTML = `<p style="color:var(--accent-green)">Base .exe ready (${data.size_mb} MB)</p>`;
     } else {
-        statusDiv.innerHTML = `<p style="color:var(--accent-red)"><iconify-icon icon="lucide:x-circle"></iconify-icon> Base .exe missing</p>`;
+        statusDiv.innerHTML = `<p style="color:var(--accent-red)">❌ Base .exe missing</p>`;
     }
 }
 
@@ -1147,7 +1126,7 @@ async function uploadExe() {
             setTimeout(() => { progContainer.style.display = 'none'; progBar.style.background = 'var(--accent-blue)'; }, 3000);
             checkExeStatus();
         } else {
-            progText.innerText = '<iconify-icon icon="lucide:x-circle"></iconify-icon> Upload Failed';
+            progText.innerText = '❌ Upload Failed';
             progBar.style.background = 'var(--accent-red)';
             showToast("Upload failed. Check server logs.", "error");
         }
@@ -1156,7 +1135,7 @@ async function uploadExe() {
     xhr.onerror = function () {
         btn.disabled = false;
         btn.innerText = " Upload .exe";
-        progText.innerText = '<iconify-icon icon="lucide:x-circle"></iconify-icon> Network Error';
+        progText.innerText = '❌ Network Error';
         progBar.style.background = 'var(--accent-red)';
         showToast("Upload network error.", "error");
     };
@@ -1363,7 +1342,7 @@ async function viewDevice(fingerprint) {
         vitalsHtml = '<h4 style="color:var(--text-primary);margin-bottom:12px;">📊 Live Vitals</h4><p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">No live vitals data available yet.</p>';
     }
 
-    let eventsHtml = '<h4 style="color:var(--text-primary);margin:16px 0 8px;"><iconify-icon icon="lucide:alert-triangle"></iconify-icon> System Events</h4>';
+    let eventsHtml = '<h4 style="color:var(--text-primary);margin:16px 0 8px;">⚠️ System Events</h4>';
     let hasEvents = false;
 
     if (vitals && vitals.os_issues_json && vitals.os_issues_json !== '[]') {
@@ -1378,7 +1357,7 @@ async function viewDevice(fingerprint) {
 
     if (h.health && h.health.issues && h.health.issues.length > 0) {
         hasEvents = true;
-        eventsHtml += h.health.issues.map(iss => '<div style="padding:6px 10px;background:rgba(234,179,8,0.1);border-left:3px solid #eab308;border-radius:4px;margin-bottom:6px;font-size:12px;color:#eab308;"><iconify-icon icon="lucide:alert-triangle"></iconify-icon> ' + escapeHTML(iss) + '</div>').join('');
+        eventsHtml += h.health.issues.map(iss => '<div style="padding:6px 10px;background:rgba(234,179,8,0.1);border-left:3px solid #eab308;border-radius:4px;margin-bottom:6px;font-size:12px;color:#eab308;">⚠️ ' + escapeHTML(iss) + '</div>').join('');
     }
 
     if (!hasEvents) {
@@ -1417,7 +1396,7 @@ async function viewDevice(fingerprint) {
         + '<div style="font-size:14px;color:var(--text-muted)">Health Score</div>'
         + '</div>'
         + (componentHtml ? '<div style="margin-bottom:16px;">' + componentHtml + '</div>' : '')
-        + '<h4 style="color:var(--text-primary);margin-bottom:12px;"><iconify-icon icon="lucide:key"></iconify-icon> License</h4>'
+        + '<h4 style="color:var(--text-primary);margin-bottom:12px;">🔑 License</h4>'
         + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">'
         + '<div style="padding:10px;background:rgba(59,130,246,0.1);border-radius:8px;">'
         + '<div style="font-size:20px;font-weight:700;color:#3b82f6;">' + device.total_scans + '</div>'
@@ -1430,7 +1409,7 @@ async function viewDevice(fingerprint) {
         + '<div style="font-size:11px;color:var(--text-muted)">Remaining</div></div>'
         + '</div>'
         + '<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">'
-        + '<button class="btn btn-primary btn-sm" onclick="downloadReport(\'' + escapeHTML(device.fingerprint) + '\')"><iconify-icon icon="lucide:file-text"></iconify-icon> Download Report</button>'
+        + '<button class="btn btn-primary btn-sm" onclick="downloadReport(\'' + escapeHTML(device.fingerprint) + '\')">📄 Download Report</button>'
         + '<button class="btn btn-success btn-sm" onclick="quickAddScans(\'' + escapeHTML(device.fingerprint) + '\', 10); closeModal();">+10 Scans</button>'
         + '</div>'
         + '</div>'
@@ -1490,14 +1469,14 @@ async function loadFleetHealth() {
                 <h4 style="margin-bottom:10px; font-size:14px;">Grade Distribution</h4>
                 ${barsHtml}
                 ${data.replacement_needed && data.replacement_needed.length > 0 ? `
-                    <h4 style="margin-top:16px; margin-bottom:8px; font-size:14px; color:#ef4444;"><iconify-icon icon="lucide:alert-triangle"></iconify-icon> Devices Needing Attention</h4>
+                    <h4 style="margin-top:16px; margin-bottom:8px; font-size:14px; color:#ef4444;">⚠️ Devices Needing Attention</h4>
                     ${data.replacement_needed.map(d => `
                         <div style="padding:8px 12px; background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:6px; margin-bottom:6px; font-size:13px;">
                             <strong>${escapeHTML(d.hostname)}</strong> (${escapeHTML(d.org_name)})  -  Grade: <span style="color:${gradeColors[d.overall_grade]};font-weight:700">${d.overall_grade}</span>
                             ${d.components.map(c => `<span style="display:inline-block;margin-left:8px;padding:2px 6px;background:rgba(239,68,68,0.1);border-radius:4px;font-size:11px;">${c.component}: ${c.grade}</span>`).join('')}
                         </div>
                     `).join('')}
-                ` : (data.warning_count > 0 ? '<p style="color:var(--text-muted); font-size:13px; margin-top:12px;"><iconify-icon icon="lucide:alert-triangle"></iconify-icon> Some devices need attention. Review warnings above.</p>' : '<p style="color:var(--text-muted); font-size:13px; margin-top:12px;"><iconify-icon icon="lucide:check-circle"></iconify-icon> All devices are in good health.</p>')}}
+                ` : (data.warning_count > 0 ? '<p style="color:var(--text-muted); font-size:13px; margin-top:12px;">⚠️ Some devices need attention. Review warnings above.</p>' : '<p style="color:var(--text-muted); font-size:13px; margin-top:12px;">✅ All devices are in good health.</p>')}}
             </div>
         </div>`;
 }
@@ -1524,18 +1503,16 @@ async function enableNetworkScan(orgId) {
 
 function refreshData() {
     const btn = document.getElementById('refresh-btn');
-    const icon = btn ? btn.querySelector('iconify-icon') : null;
-
-    if (icon) {
-        icon.style.animation = 'spin 1s linear infinite';
+    if (btn) {
+        btn.classList.add('btn-spinning');
+        btn.innerHTML = '<span class="spin-icon">🔄</span> Refreshing...';
     }
-
     const active = document.querySelector('.nav-item.active');
     if (active) switchView(active.dataset.view);
-
     setTimeout(() => {
-        if (icon) {
-            icon.style.animation = '';
+        if (btn) {
+            btn.classList.remove('btn-spinning');
+            btn.innerHTML = '🔄 Refresh';
         }
     }, 2000);
 }
@@ -1647,7 +1624,7 @@ async function loadEwaste() {
     if (!data) { container.innerHTML = '<div class="empty-state">Failed to load e-waste report.</div>'; return; }
 
     const flagColors = { 'keep': '#22c55e', 'review': '#eab308', 'e-waste': '#ef4444' };
-    const flagLabels = { 'keep': 'Keep', 'review': '<iconify-icon icon="lucide:alert-triangle"></iconify-icon> Review', 'e-waste': '🗑 E-Waste' };
+    const flagLabels = { 'keep': 'Keep', 'review': '⚠️ Review', 'e-waste': '🗑 E-Waste' };
 
     let html = `
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px;">
@@ -1657,7 +1634,7 @@ async function loadEwaste() {
             </div>
             <div style="text-align:center; padding:16px; background:rgba(234,179,8,0.1); border-radius:8px;">
                 <div style="font-size:32px; font-weight:800; color:#eab308;">${data.review}</div>
-                <div style="font-size:13px; color:var(--text-muted)"><iconify-icon icon="lucide:alert-triangle"></iconify-icon> Review Required</div>
+                <div style="font-size:13px; color:var(--text-muted)">⚠️ Review Required</div>
             </div>
             <div style="text-align:center; padding:16px; background:rgba(239,68,68,0.1); border-radius:8px;">
                 <div style="font-size:32px; font-weight:800; color:#ef4444;">${data.e_waste}</div>
@@ -1704,7 +1681,7 @@ async function loadAmc() {
     if (!data) { container.innerHTML = '<div class="empty-state">No AMC data available.</div>'; return; }
 
     const statusColors = { 'active': '#22c55e', 'expiring_soon': '#eab308', 'expired': '#ef4444' };
-    const statusLabels = { 'active': 'Active', 'expiring_soon': '<iconify-icon icon="lucide:alert-triangle"></iconify-icon> Expiring Soon', 'expired': '<iconify-icon icon="lucide:x-circle"></iconify-icon> Expired' };
+    const statusLabels = { 'active': 'Active', 'expiring_soon': '⚠️ Expiring Soon', 'expired': '❌ Expired' };
 
     let html = `
         <div style="display:flex; gap:16px; margin-bottom:16px;">
@@ -1717,7 +1694,7 @@ async function loadAmc() {
                 <span style="font-size:12px; color:var(--text-muted); margin-left:4px;">Expiring Soon</span>
             </div>
             <div style="flex:1;"></div>
-            <button class="btn btn-primary btn-sm" onclick="showAddAmcForm()"><iconify-icon icon="lucide:plus"></iconify-icon> Add AMC Record</button>
+            <button class="btn btn-primary btn-sm" onclick="showAddAmcForm()">➕ Add AMC Record</button>
         </div>
     `;
 
@@ -1749,7 +1726,7 @@ function showAddAmcForm() {
     const area = document.getElementById('amc-form-area');
     area.innerHTML = `
         <div class="card" style="margin-top:16px; border:1px solid var(--primary);">
-            <div class="card-header"><h3><iconify-icon icon="lucide:plus"></iconify-icon> Add AMC/Warranty Record</h3></div>
+            <div class="card-header"><h3>➕ Add AMC/Warranty Record</h3></div>
             <div class="card-body">
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
                     <div class="form-group"><label>Device Fingerprint</label><input id="amc-fp" placeholder="Paste fingerprint"></div>
@@ -1835,12 +1812,12 @@ async function generateReport() {
         a.download = `CatalystScan_${reportType}_${orgId}_${new Date().toISOString().split('T')[0]}.pdf`;
         a.click();
         URL.revokeObjectURL(url);
-        resultDiv.innerHTML = '<p style="color:#22c55e;font-weight:600;"><iconify-icon icon="lucide:check-circle"></iconify-icon> Report generated and downloaded!</p>';
+        resultDiv.innerHTML = '<p style="color:#22c55e;font-weight:600;">✅ Report generated and downloaded!</p>';
         showToast('Report downloaded successfully!', 'success');
     } catch (e) {
-        resultDiv.innerHTML = `<p style="color:#ef4444;"><iconify-icon icon="lucide:x-circle"></iconify-icon> Failed: ${e.message}</p>`;
+        resultDiv.innerHTML = `<p style="color:#ef4444;">❌ Failed: ${e.message}</p>`;
         showToast('Report generation failed: ' + e.message, 'error');
-    } finally { btn.disabled = false; btn.innerText = '<iconify-icon icon="lucide:file-text"></iconify-icon> Generate PDF Report'; }
+    } finally { btn.disabled = false; btn.innerText = '📄 Generate PDF Report'; }
 }
 
 async function downloadAssetCSV() {
@@ -2006,10 +1983,10 @@ async function submitBulkLicense() {
             <div style="padding:12px; background:rgba(34,197,94,0.1); border-radius:8px; font-size:13px;">
                 Processed: ${data.processed} | Success: <strong style="color:#22c55e">${data.success}</strong> | Failed: <strong style="color:#ef4444">${data.failed}</strong>
             </div>
-            ${data.details.map(d => `<div style="padding:4px 0; font-size:12px; color:var(--text-muted);">${d.fingerprint.substring(0, 16)}... → ${d.status === 'ok' ? '+' + d.added : '<iconify-icon icon="lucide:x-circle"></iconify-icon> ' + d.status}</div>`).join('')}
+            ${data.details.map(d => `<div style="padding:4px 0; font-size:12px; color:var(--text-muted);">${d.fingerprint.substring(0, 16)}... → ${d.status === 'ok' ? '+' + d.added : '❌ ' + d.status}</div>`).join('')}
         `;
     } else {
-        resultDiv.innerHTML = '<div style="color:#ef4444;"><iconify-icon icon="lucide:x-circle"></iconify-icon> Failed to process CSV</div>';
+        resultDiv.innerHTML = '<div style="color:#ef4444;">❌ Failed to process CSV</div>';
     }
 }
 
@@ -2241,7 +2218,7 @@ async function loadOrgAlertConfig() {
                 
                 <h4 style="margin-bottom:12px;"> Alert Triggers</h4>
                 <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:16px;">
-                    <label style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="alert-tamper" ${config.alert_on_tamper ? 'checked' : ''}> <iconify-icon icon="lucide:shield"></iconify-icon> Tamper/Theft</label>
+                    <label style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="alert-tamper" ${config.alert_on_tamper ? 'checked' : ''}> 🛡️ Tamper/Theft</label>
                     <label style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="alert-offline" ${config.alert_on_offline ? 'checked' : ''}> 🔴 Device Offline</label>
                     <label style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="alert-grade" ${config.alert_on_grade_drop ? 'checked' : ''}> 📉 Grade Drop</label>
                     <label style="font-size:13px; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="alert-amc" ${config.alert_on_amc_expiry ? 'checked' : ''}> ⏳ AMC Expiry</label>
@@ -2278,7 +2255,7 @@ async function saveAlertConfig(orgId) {
     if (result?.success) {
         el.innerHTML = '<div style="padding:8px 14px; background:rgba(34,197,94,0.1); border-radius:6px; color:#22c55e; font-size:13px;">Configuration saved!</div>';
     } else {
-        el.innerHTML = '<div style="padding:8px 14px; background:rgba(239,68,68,0.1); border-radius:6px; color:#ef4444; font-size:13px;"><iconify-icon icon="lucide:x-circle"></iconify-icon> Failed to save</div>';
+        el.innerHTML = '<div style="padding:8px 14px; background:rgba(239,68,68,0.1); border-radius:6px; color:#ef4444; font-size:13px;">❌ Failed to save</div>';
     }
 }
 
@@ -2290,7 +2267,7 @@ async function testAlert(orgId, channel) {
     if (result?.success) {
         el.innerHTML = `<div style="padding:8px 14px; background:rgba(34,197,94,0.1); border-radius:6px; color:#22c55e; font-size:13px;">${result.message}</div>`;
     } else {
-        el.innerHTML = `<div style="padding:8px 14px; background:rgba(234,179,8,0.1); border-radius:6px; color:#eab308; font-size:13px;"><iconify-icon icon="lucide:alert-triangle"></iconify-icon> ${result?.message || 'Test failed'}</div>`;
+        el.innerHTML = `<div style="padding:8px 14px; background:rgba(234,179,8,0.1); border-radius:6px; color:#eab308; font-size:13px;">⚠️ ${result?.message || 'Test failed'}</div>`;
     }
 }
 
@@ -2353,7 +2330,7 @@ async function loadPartners() {
                         <td>${escapeHTML(p.contact_email) || p.contact_phone || ' - '}</td>
                         <td>${p.org_count || 0}</td>
                         <td>${p.device_count || 0}</td>
-                        <td>${p.is_active ? '<span style="color:#22c55e"><iconify-icon icon="lucide:check-circle"></iconify-icon> Active</span>' : '<span style="color:#ef4444"><iconify-icon icon="lucide:x-circle"></iconify-icon> Inactive</span>'}</td>
+                        <td>${p.is_active ? '<span style="color:#22c55e">✅ Active</span>' : '<span style="color:#ef4444">❌ Inactive</span>'}</td>
                         <td>
                             <button class="btn btn-sm" onclick="viewPartnerDetail(${p.id})"> Detail</button>
                             <button class="btn btn-sm btn-danger" onclick="deletePartnerAction(${p.id}, '${escapeHTML(p.name)}')">🗑</button>
@@ -2379,7 +2356,7 @@ async function viewPartnerDetail(partnerId) {
 
     container.innerHTML = `
         <div style="margin-bottom:16px;">
-            <button class="btn btn-ghost" onclick="loadPartners()"><iconify-icon icon="lucide:arrow-left"></iconify-icon> Back to Partners</button>
+            <button class="btn btn-ghost" onclick="loadPartners()">← Back to Partners</button>
         </div>
         <div class="stat-grid" style="margin-bottom:20px;">
             <div class="stat-card"><div class="stat-value">${p.stats?.total_orgs || 0}</div><div class="stat-label">Organizations</div></div>
@@ -2447,7 +2424,7 @@ function showCreatePartnerModal() {
     const container = document.getElementById('partners-content');
     container.innerHTML = `
         <div style="margin-bottom:16px;">
-            <button class="btn btn-ghost" onclick="loadPartners()"><iconify-icon icon="lucide:arrow-left"></iconify-icon> Back to Partners</button>
+            <button class="btn btn-ghost" onclick="loadPartners()">← Back to Partners</button>
         </div>
         <h4 style="margin-bottom:16px;">Create New Partner</h4>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:600px;">
@@ -2480,7 +2457,7 @@ async function submitCreatePartner() {
         document.getElementById('cp-result').innerHTML = '<div style="color:#22c55e;">Partner created successfully!</div>';
         setTimeout(() => loadPartners(), 1000);
     } else {
-        document.getElementById('cp-result').innerHTML = '<div style="color:#ef4444;"><iconify-icon icon="lucide:x-circle"></iconify-icon> Failed: Partner code may already exist.</div>';
+        document.getElementById('cp-result').innerHTML = '<div style="color:#ef4444;">❌ Failed: Partner code may already exist.</div>';
     }
 }
 
@@ -2525,10 +2502,10 @@ async function loadUsers() {
                         <td><span style="letter-spacing:2px;color:var(--text-muted);font-size:16px;">••••••</span></td>
                         <td><span class="badge" style="background:${roleColors[u.role] || '#64748b'}">${roleLabels[u.role] || u.role}</span></td>
                         <td>${u.partner_name || ' - '}</td>
-                        <td>${u.is_active ? '<span style="color:#22c55e"><iconify-icon icon="lucide:check-circle"></iconify-icon> Active</span>' : '<span style="color:#ef4444"><iconify-icon icon="lucide:x-circle"></iconify-icon> Inactive</span>'}</td>
+                        <td>${u.is_active ? '<span style="color:#22c55e">✅ Active</span>' : '<span style="color:#ef4444">❌ Inactive</span>'}</td>
                         <td>${u.last_login ? new Date(u.last_login).toLocaleDateString() : 'Never'}</td>
                         <td style="white-space:nowrap;">
-                            <button class="btn btn-sm btn-ghost btn-icon" onclick="showResetPasswordModal(${u.id}, '${escapeHTML(u.username)}')" title="Reset Password"><iconify-icon icon="lucide:key"></iconify-icon> Reset</button>
+                            <button class="btn btn-sm btn-ghost btn-icon" onclick="showResetPasswordModal(${u.id}, '${escapeHTML(u.username)}')" title="Reset Password">🔑 Reset</button>
                             <button class="btn btn-sm btn-danger btn-icon" onclick="deleteUserAction(${u.id}, '${escapeHTML(u.username)}')" title="Delete User">🗑️ Delete</button>
                         </td>
                     </tr>
@@ -2557,7 +2534,7 @@ function showResetPasswordModal(userId, username) {
 async function resetUserPassword(userId, username, newPassword) {
     const result = await postJSON('/api/admin/users/' + userId + '/reset-password', { new_password: newPassword });
     if (result && result.success) {
-        showToast('<iconify-icon icon="lucide:check-circle"></iconify-icon> Password for "' + username + '" has been reset successfully.', 'success');
+        showToast('✅ Password for "' + username + '" has been reset successfully.', 'success');
     } else {
         showToast('Failed to reset password for "' + username + '".', 'error');
     }
@@ -3057,7 +3034,7 @@ async function loadCreditLedger() {
     }
 
     const typeColors = { purchase: '#22c55e', allocation: '#3b82f6', scan_debit: '#ef4444', refund: '#f59e0b', adjustment: '#8b5cf6' };
-    const typeLabels = { purchase: '💰 Purchase', allocation: '📤 Allocation', scan_debit: '<iconify-icon icon="lucide:search"></iconify-icon> Scan', refund: '↩️ Refund', adjustment: '🔧 Adjustment' };
+    const typeLabels = { purchase: '💰 Purchase', allocation: '📤 Allocation', scan_debit: '🔍 Scan', refund: '↩️ Refund', adjustment: '🔧 Adjustment' };
 
     body.innerHTML = `<table class="data-table"><thead><tr>
         <th>Date</th><th>Type</th><th>Credits</th><th>Amount</th><th>Balance</th><th>Description</th>
@@ -3172,7 +3149,7 @@ async function loadAuditLog(offset) {
         if (offset > 0) {
             var prevBtn = document.createElement('button');
             prevBtn.className = 'btn btn-sm btn-ghost';
-            prevBtn.textContent = '<iconify-icon icon="lucide:arrow-left"></iconify-icon> Previous';
+            prevBtn.textContent = '← Previous';
             prevBtn.onclick = function () { loadAuditLog(Math.max(0, offset - _auditPageSize)); };
             btnGroup.appendChild(prevBtn);
         }
